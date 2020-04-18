@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<SqlWorkbenchSqlProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="Init">
+  <Items>
+    <LogicalFolder Name="Соединения" Type="2" Sorted="true">
+      <Items>
+        <ConnectionNode Name="(local)\SQLEXPRESS:DELL-G5-NIKITA\alsha">
+          <Created>2020-04-16T18:29:36.791231+03:00</Created>
+          <Type>SQL</Type>
+          <Server>(local)\SQLEXPRESS</Server>
+          <UserName />
+          <Authentication>Проверка подлинности Windows</Authentication>
+          <InitialDB>JOURNAL</InitialDB>
+          <LoginTimeout>30</LoginTimeout>
+          <ExecutionTimeout>0</ExecutionTimeout>
+          <ConnectionProtocol>NotSpecified</ConnectionProtocol>
+          <ApplicationName>Среда Microsoft SQL Server Management Studio - запрос</ApplicationName>
+        </ConnectionNode>
+      </Items>
+    </LogicalFolder>
+    <LogicalFolder Name="Запросы" Type="0" Sorted="true">
+      <Items>
+        <FileNode Name="create_database.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:(local)\SQLEXPRESS:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>(local)\SQLEXPRESS</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>create_database.sql</FullPath>
+        </FileNode>
+        <FileNode Name="create_tables.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:(local)\SQLEXPRESS:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>(local)\SQLEXPRESS</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>create_tables.sql</FullPath>
+        </FileNode>
+        <FileNode Name="init_data.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:(local)\SQLEXPRESS:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>(local)\SQLEXPRESS</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>init_data.sql</FullPath>
+        </FileNode>
+        <FileNode Name="RecordTrigger.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:(local)\SQLEXPRESS:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>(local)\SQLEXPRESS</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>RecordTrigger.sql</FullPath>
+        </FileNode>
+        <FileNode Name="testsql.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:(local)\SQLEXPRESS:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>(local)\SQLEXPRESS</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>testsql.sql</FullPath>
+        </FileNode>
+        <FileNode Name="VisitTrigger.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:(local)\SQLEXPRESS:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>(local)\SQLEXPRESS</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>VisitTrigger.sql</FullPath>
+        </FileNode>
+      </Items>
+    </LogicalFolder>
+    <LogicalFolder Name="Разное" Type="3" Sorted="true">
+      <Items />
+    </LogicalFolder>
+  </Items>
+</SqlWorkbenchSqlProject>

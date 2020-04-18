@@ -1,0 +1,6 @@
+﻿
+PM Console commands:
+# If Microsoft.EntityFrameworkCore.Tools not install
+Install-Package Microsoft.EntityFrameworkCore.Tools 
+# Init classes
+Scaffold-DbContext "Server=.\SQLExpress;Database=JournalDB;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
