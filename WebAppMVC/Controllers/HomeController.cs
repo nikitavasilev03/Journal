@@ -19,6 +19,7 @@ namespace WebAppMVC.Controllers
         
         public IActionResult Index()
         {
+            
             return View();
         }
 

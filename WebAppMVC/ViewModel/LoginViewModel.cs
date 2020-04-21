@@ -4,7 +4,7 @@ namespace WebAppMVC.ViewModel
 {
     public class LoginViewModel
     {
-        [Required(ErrorMessage = "Не указан Email")]
+        [Required(ErrorMessage = "Не указан логин")]
         public string Login { get; set; }
 
         [Required(ErrorMessage = "Не указан пароль")]
