@@ -1,0 +1,14 @@
+﻿@{
+    Layout = "~/Views/Home/Index.cshtml";
+    ViewData["Title"] = "Home Page";
+}
+@model IEnumerable<DomainCore.Models.Account>
+
+<h1>АККАУНТЫ</h1>
+<table class="table">
+    <tr><td>AccountId</td><td>LoginName</td><td>Hpassword</td><td>DateCreate</td><td>DateEnd</td><td></td></tr>
+    @foreach (var item in Model)
+    {
+        <tr><td>@item.AccountId</td><td>@item.LoginName</td><td>@item.Hpassword</td><td>@item.DateCreate</td><td>@item.DateEnd</td><td><a href="#">Изменить</a></td></tr>
+    }
+</table>

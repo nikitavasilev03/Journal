@@ -1,6 +1,6 @@
 ﻿@{
     ViewData["Title"] = "Вход";
-    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+    Layout = "~/Views/Account/_LoginLayout.cshtml";
 }
 @model WebAppMVC.ViewModel.LoginViewModel
 
@@ -37,23 +37,6 @@
             </div>
         </form>
     </div>
-    @*<form asp-action="Login" asp-controller="Account" asp-anti-forgery="true">
-            <h1>ВХОД</h1>
-            <div class="validation" asp-validation-summary="ModelOnly"></div>
-            <div>
-                <div class="form-group">
-                    <a>ЛОГИН : <input type="text" id="login" asp-for="Login"></a>
-                    <span asp-validation-for="Login" />
-                </div>
-                <div class="form-group">
-                    <a>ПАРОЛЬ : <input id="password" asp-for="Password"></a>
-                    <span asp-validation-for="Password" />
-                </div>
-                <div class="form-group">
-                    <input type="submit" id="but" value="ВОЙТИ" />
-                </div>
-            </div>
-        </form>*@
 </div>
 
 @section scripts{

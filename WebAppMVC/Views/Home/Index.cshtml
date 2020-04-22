@@ -1,43 +1,55 @@
 ﻿@{
-    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+    Layout = "~/Views/Home/_HomeLayout.cshtml";
     ViewData["Title"] = "Home Page";
 }
 
+
 <div class="wrapper">
-
     <header class="header">
-        <strong>Header:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras tortor. Praesent dictum, libero ut tempus dictum, neque eros elementum mauris, quis mollis arcu velit ac diam. Etiam neque. Quisque nec turpis. Aliquam
-        arcu nulla, dictum et, lacinia a, mollis in, ante. Sed eu felis in elit tempor venenatis. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Ut ultricies porttitor purus. Proin non tellus at ligula fringilla
-        tristique. Fusce vehicula quam. Curabitur vel tortor vitae pede imperdiet ultrices. Sed tortor.
+        <div class="container">
+            <div class="header__inner">
+                <div class="header__logo">СПОРТКОМПЛЕКС ОЛИМП</div>
+                <nav class="nav">
+                    @{
+                        await Html.RenderPartialAsync("_User", User.Identity.Name);
+                    }
+                    @*<a class="nav__link" href="#">USER(ADMIN)</a>*@
+                </nav>
+            </div>
+        </div>
     </header>
-    <!-- .header-->
-
     <div class="middle">
+        @{
+            await Html.RenderPartialAsync("_AdminSidebar", User.Identity.Name);
 
+        }
         <div class="container">
             <main class="content">
-                <strong>Content:</strong> Sed placerat accumsan ligula. Aliquam felis magna, congue quis, tempus eu, aliquam vitae, ante. Cras neque justo, ultrices at, rhoncus a, facilisis eget, nisl. Quisque vitae pede. Nam et augue. Sed a elit.
-                Ut vel massa. Suspendisse nibh pede, ultrices vitae, ultrices nec, mollis non, nibh. In sit amet pede quis leo vulputate hendrerit. Cras laoreet leo et justo auctor condimentum. Integer id enim. Suspendisse egestas, dui ac egestas
-                mollis, libero orci hendrerit lacus, et malesuada lorem neque ac libero. Morbi tempor pulvinar pede. Donec vel elit.
-            </main>
-            <!-- .content -->
-        </div>
-        <!-- .container-->
+                <!-- test -->
+                @RenderBody()
+                @*@{ 
+                    await Html.RenderPartialAsync(Model);
+                }*@
+                @*<a>
+                    Вода́ (оксид водорода) — бинарное неорганическое соединение с химической формулой H2O: молекула воды состоит из двух атомов водорода и одного — кислорода, которые соединены между собой ковалентной связью. При нормальных условиях представляет
+                    собой прозрачную жидкость, не имеющую цвета (при малой толщине слоя), запаха и вкуса. В твёрдом состоянии называется льдом (кристаллы льда могут образовывать снег или иней), а в газообразном — водяным паром. Вода также может существовать
+                    в виде жидких кристаллов (на гидрофильных поверхностях)[7][8]. Вода является хорошим сильнополярным растворителем. В природных условиях всегда содержит растворённые вещества (соли, газы). Исключительно важна роль воды в глобальном
+                    кругообороте вещества и энергии[9], возникновении и поддержании жизни на Земле, в химическом строении живых организмов, в формировании климата и погоды. Вода является важнейшим веществом для всех живых существ на Земле[10]. Всего
+                    на Земле около 1400 млн км³ воды. Вода покрывает 71 % поверхности земного шара (океаны, моря, озёра, реки, льды — 361,13 млн км²[11][12]). Бо́льшая часть земной воды (97,54 %) принадлежит Мировому океану — это солёная вода, непригодная
+                    для сельского хозяйства и питья. Пресная же вода находится в основном в ледниках (1,81 %) и подземных водах (около 0,63 %), и лишь небольшая часть (0,009 %) в реках и озёрах. Материковые солёные воды составляют 0,007 %, в атмосфере
+                    содержится 0,001 % от всей воды нашей планеты[13][14].
+                    Происходит от др.-русск. вода, далее от праславянского *voda[15] (ср. ст.-слав. вода, болг. вода́, сербохорв. во̀да, словен. vóda, чеш. voda, слвц. voda, польск. woda, в.-луж., н.-луж. woda), затем от праиндоевропейского *wed-, родственно лит. vanduõ, жем. unduo, д.-в.-н. waʒʒar «вода», гот. watō, англ. water, греч. ὕδωρ, ὕδατος, арм. get «река», фриг. βέδυ, др.-инд. udakám, uda-, udán- «вода», unátti «бить ключом», «орошать», ṓdman- «поток», алб. uj «вода»[16][17]. Также родственно русским словам ведро, выдра. В рамках необщепринятой гипотезы о существовании некогда праностратического языка слово может сравниваться с гипотетическим прауральским *wete (ср., например, фин. vesi, эст. vesi, коми va, венг. víz), а также с предполагаемыми праалтайскими, прадравидийским и пр. словами, и реконструироваться как *wetV для праязыка[18].
+                    Вода при нормальных условиях находится в жидком состоянии, тогда как аналогичные водородные соединения других элементов являются газами (H2S, CH4, HF). Атомы водорода присоединены к атому кислорода, образуя угол 104,45° (104°27′). Из-за большой разности электроотрицательностей атомов водорода и кислорода электронные облака сильно смещены в сторону кислорода. По этой причине молекула воды обладает большим дипольным моментом (p = 1,84 Д, уступает только синильной кислоте и диметилсульфоксиду). Каждая молекула воды образует до четырёх водородных связей — две из них образует атом кислорода и две — атомы водорода[19]. Количество водородных связей и их разветвлённая структура определяют высокую температуру кипения воды и её удельную теплоту парообразования[19]. Если бы не было водородных связей, вода, на основании места кислорода в таблице Менделеева и температур кипения гидридов аналогичных кислороду элементов (серы, селена, теллура), кипела бы при −80 °C, а замерзала при −100 °C[20].
 
-        <aside class="left-sidebar">
-            <strong>Left Sidebar:</strong> Integer velit. Vestibulum nisi nunc, accumsan ut, vehicula sit amet, porta a, mi. Nam nisl tellus, placerat eget, posuere eget, egestas eget, dui. Pellentesque habitant morbi tristique senectus et netus et
-            malesuada fames ac turpis egestas. In elementum urna a eros. Integer iaculis. Maecenas vel elit.
-        </aside>
-        <!-- .left-sidebar -->
+                    При переходе в твёрдое состояние молекулы воды упорядочиваются, при этом объёмы пустот между молекулами увеличиваются, и общая плотность воды падает, что и объясняет меньшую плотность (больший объём) воды в фазе льда. При испарении, напротив, все водородные связи рвутся. Разрыв связей требует много энергии, отчего у воды самая большая удельная теплоёмкость среди прочих жидкостей и твёрдых веществ. Для того чтобы нагреть один литр воды на один градус, требуется затратить 4,1868 кДж энергии. Благодаря этому свойству вода нередко используется как теплоноситель.
+
+                    Помимо большой удельной теплоёмкости, вода также имеет большие значения удельной теплоты плавления (333,55 кДж/кг при 0 °C) и парообразования (2250 кДж/кг).
+                </a>*@
+                <!-- test -->
+            </main>
+        </div>
 
     </div>
-    <!-- .middle-->
-
 </div>
-<!-- .wrapper -->
-
 <footer class="footer">
-    <strong>Footer:</strong> Mus elit Morbi mus enim lacus at quis Nam eget morbi. Et semper urna urna non at cursus dolor vestibulum neque enim. Tellus interdum at laoreet laoreet lacinia lacinia sed Quisque justo quis. Hendrerit scelerisque lorem
-    elit orci tempor tincidunt enim Phasellus dignissim tincidunt. Nunc vel et Sed nisl Vestibulum odio montes Aliquam volutpat pellentesque. Ut pede sagittis et quis nunc gravida porttitor ligula.
 </footer>
-<!-- .footer -->
