@@ -101,6 +101,7 @@ h1 {
     box-sizing: border-box;
     display: block;
     margin: 10px;
+    border-radius: 10px;
     /*background-color: darkviolet;*/
 }
 
@@ -108,7 +109,7 @@ h1 {
 /* Middle */
 
 .middle {
-    border-radius: 20px;
+    
     height: 90%;
     width: 100%;
     display: table;
@@ -146,7 +147,7 @@ h1 {
 }
 
 .content {
-    border-radius: 20px;
+    border-radius: 10px;
     box-sizing: border-box;
     position: relative;
     height: 100%;
@@ -159,7 +160,6 @@ h1 {
 /* Header */
 
 .header {
-    border-radius: 20px;
     height: 8%;
     max-height: 90px;
     width: 100%;
@@ -231,11 +231,7 @@ h1 {
 
 /* цвета */
 
-
-/* вариант 1 */
-
-
-/*.nav__link.active,
+.nav__link.active,
 .nav__link:hover,
 .nav__link,
 .header__logo {
@@ -258,34 +254,6 @@ h1 {
 body {
     background-color: #030303;
     color: #030303;
-}*/
-
-
-/* вариант 2 */
-
-.nav__link.active,
-.nav__link:hover,
-.nav__link,
-.header__logo {
-    color: #010101;
-}
-
-.header {
-    background-color: #e54044;
-}
-
-.middle {
-    background-color: #f1879d;
-}
-
-.content {
-    background-color: #f9e6f4;
-    border: 5px solid #e0a6c1;
-}
-
-body {
-    background-color: #010101;
-    color: #010101;
 }
 
 
