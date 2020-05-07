@@ -4,26 +4,32 @@
 }
 @model WebAppMVC.ViewModel.AccountViewModel
 
-<form asp-action="CreateAccount" asp-controller="Home">
-    <div class="validation" asp-validation-summary="ModelOnly"></div>
-    <div>
-        <label asp-for="Login">Логин</label>
-        <input type="text" asp-for="Login" />
-        <span asp-validation-for="Login"></span>
-    </div>
-
-    <div>
-        <label asp-for="Password"></label>
-        <input type="text" asp-for="Password" />
-        <span asp-validation-for="Password"></span>
-    </div>
-    <div>
-        <label asp-for="DateEnd">Дата окончания учетной записи</label>
-        <input type="date" asp-for="DateEnd" asp-format="{0:yyyy-MM-dd}" >
-        <span asp-validation-for="DateEnd"></span>
-    </div>
-
-    <div>
-        <input type="submit" value="Отправить" />
-    </div>
-</form>
+    <form asp-action="CreateAccount" asp-controller="Home">
+        <div class="validation" asp-validation-summary="ModelOnly"></div>
+        <div class="ca_">
+            <label class="ca_lab" asp-for="Login">Логин</label>
+            <input class="ca_input" type="text" asp-for="Login" />
+            <span asp-validation-for="Login"></span>
+        </div>
+        <div class="ca_">
+            <label class="ca_lab" asp-for="Password"></label>
+            <input class="ca_input" type="text" asp-for="Password" />
+            <span asp-validation-for="Password"></span>
+        </div>
+        <div class="ca_">
+            <label asp-for="DateEnd">Дата окончания учетной записи</label>
+            <input type="date" asp-for="DateEnd" asp-format="{0:yyyy-MM-dd}">
+            <span asp-validation-for="DateEnd"></span>
+        </div>
+        <div class="ca_">
+            <label class="ca_lab" for="account_type">Тип учётной записи</label>
+            <select class="ca_input">
+                <option value="admin">АДМИНИСТРАТОР</option>
+                <option value="teacher">ПРЕПОДАВАТЕЛЬ</option>
+                <option value="student">СТУДЕНТ</option>
+            </select>
+        </div>
+        <div class="ca_">
+            <input class="ca_input" type="submit" value="Отправить" />
+        </div>
+    </form>
