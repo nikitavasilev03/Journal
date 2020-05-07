@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
 using DomainCore.Models;
+using Microsoft.Data.SqlClient;
 
 namespace DomainCore.Context
 {
@@ -287,6 +288,18 @@ namespace DomainCore.Context
             modelBuilder.HasSequence("SEQ_Timetable");
 
             OnModelCreatingPartial(modelBuilder);
+
+        }
+
+        public int NextSequence(string seq_name)
+        {
+            SqlParameter result = new SqlParameter("@result", System.Data.SqlDbType.Int)
+            {
+                Direction = System.Data.ParameterDirection.Output
+            };
+            Database.ExecuteSqlCommand("SELECT @result = (NEXT VALUE FOR dbo." + seq_name + ")", result);
+
+            return (int)result.Value;
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

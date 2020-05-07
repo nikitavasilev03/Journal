@@ -1,10 +1,15 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
 using DomainCore.Context;
+using DomainCore.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 using WebAppMVC.Models;
+using WebAppMVC.ViewModel;
 
 namespace WebAppMVC.Controllers
 {
@@ -39,12 +44,47 @@ namespace WebAppMVC.Controllers
         [Route("Students")]
         public IActionResult Students()
         {
-            return View("Students");
+            return View("Students", db.Students);
         }
         [Route("Teachers")]
         public IActionResult Teachers()
         {
-            return View("Teachers");
+            return View("Teachers", db.Teachers);
+        }
+        
+        [Route("CreateAccount")]
+        [HttpGet]
+        public IActionResult CreateAccount()
+        {
+            return View("Create/Account");
+        }
+        [Route("CreateAccount")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateAccount(CreateAccountViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Account account = await db.Accounts.FirstOrDefaultAsync(u => u.LoginName == model.Login);
+                if (account == null)
+                {
+                    account = new Account
+                    {
+                        AccountId = db.NextSequence("SEQ_Accounts"),
+                        LoginName = model.Login,
+                        Hpassword = DomainCore.Helpers.Password.Hash(model.Password),
+                        AccountType = "Ученик",
+                        DateCreate = DateTime.Now,
+                    };
+                    if (model.DateEnd != DateTime.MinValue)
+                        account.DateEnd = model.DateEnd;
+                    db.Accounts.Add(account);
+                    await db.SaveChangesAsync();
+                }
+                ModelState.AddModelError("", "Аккаунт с таким логином уже существует");
+            }
+         
+            return RedirectToAction("Accounts");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

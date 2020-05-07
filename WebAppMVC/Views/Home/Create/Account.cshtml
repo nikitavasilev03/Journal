@@ -1,0 +1,27 @@
+﻿@{
+    Layout = "~/Views/Home/Index.cshtml";
+    ViewData["Title"] = "Home Page";
+}
+@model WebAppMVC.ViewModel.CreateAccountViewModel
+
+<form asp-action="CreateAccount" asp-controller="Home">
+
+    <div>
+        <label asp-for="Login">Логин</label>
+        <input type="text" asp-for="Login" />
+    </div>
+
+    <div>
+        <label asp-for="Password"></label>
+        <input type="text" asp-for="Password" />
+    </div>
+    <div>
+        <label asp-for="DateEnd">Дата окончания учетной записи</label>
+        <input type="date" asp-for="DateEnd" asp-format="{0:yyyy-MM-dd}">
+    </div>
+
+    <div>
+        <input type="submit" value="Отправить" />
+    </div>
+
+</form>

@@ -9,11 +9,12 @@
         <div class="container">
             <div class="header__inner">
                 <div class="header__logo">СПОРТКОМПЛЕКС ОЛИМП</div>
+                
                 <nav class="nav">
+                    <a class="nav__link" asp-controller="Start" asp-action="Index">Начальная страница</a>
                     @{
                         await Html.RenderPartialAsync("_User", User.Identity.Name);
                     }
-                    @*<a class="nav__link" href="#">USER(ADMIN)</a>*@
                 </nav>
             </div>
         </div>
