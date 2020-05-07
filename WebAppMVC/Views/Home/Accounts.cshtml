@@ -4,8 +4,11 @@
 }
 @model IEnumerable<DomainCore.Models.Account>
 
-<h1>АККАУНТЫ</h1>
-<a asp-controller="Home" asp-action="CreateAccount">Создать аккаунт</a>
+<div class="tools">
+    <h1>АККАУНТЫ</h1>
+    <a class="nav__link butt" asp-controller="Home" asp-action="CreateAccount">Создать аккаунт</a>
+</div>
+
 <table class="table-info">
     <thead>
         <tr>
@@ -14,6 +17,7 @@
             <td>ХЕШ пароля</td>
             <td>Дата создания</td>
             <td>Дата окончания</td>
+            <td>Тип учетной записи</td>
             <td></td>
         </tr>
     </thead>
@@ -26,7 +30,8 @@
                 <td>@item.Hpassword</td>
                 <td>@item.DateCreate</td>
                 <td>@item.DateEnd</td>
-                <td><a href="#">Изменить</a></td>
+                <td>@item.AccountType</td>
+                <td><a class="nav__link" href="#">Изменить</a></td>
             </tr>
         }
     </tbody>

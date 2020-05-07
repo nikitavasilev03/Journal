@@ -61,7 +61,7 @@ namespace WebAppMVC.Controllers
         [Route("CreateAccount")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateAccount(CreateAccountViewModel model)
+        public async Task<IActionResult> CreateAccount(AccountViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -80,11 +80,47 @@ namespace WebAppMVC.Controllers
                         account.DateEnd = model.DateEnd;
                     db.Accounts.Add(account);
                     await db.SaveChangesAsync();
+                    return RedirectToAction("Accounts");
                 }
                 ModelState.AddModelError("", "Аккаунт с таким логином уже существует");
             }
-         
-            return RedirectToAction("Accounts");
+            return View("Create/Account", model);
+        }
+
+        [Route("EditAccount")]
+        [HttpGet]
+        public IActionResult EditAccount()
+        {
+            return View("Edit/Account");
+        }
+        [Route("EditAccount")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditAccount(AccountViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Account account = await db.Accounts.FirstOrDefaultAsync(u => u.LoginName == model.Login);
+                if (account == null)
+                {
+                    account = new Account
+                    {
+                        AccountId = db.NextSequence("SEQ_Accounts"),
+                        LoginName = model.Login,
+                        Hpassword = DomainCore.Helpers.Password.Hash(model.Password),
+                        AccountType = "Ученик",
+                        DateCreate = DateTime.Now,
+                    };
+                    if (model.DateEnd != DateTime.MinValue)
+                        account.DateEnd = model.DateEnd;
+                    db.Accounts.Add(account);
+                    await db.SaveChangesAsync();
+                    return RedirectToAction("Accounts");
+                }
+                ModelState.AddModelError("", "Аккаунт с таким логином уже существует");
+            }
+
+            return View("Edit/Account", model);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

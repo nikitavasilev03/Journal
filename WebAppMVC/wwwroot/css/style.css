@@ -4,21 +4,21 @@
     border: 1px solid black;
 }
 
-.table-info th,
-td {
-    text-align: left;
-    padding: 8px;
-    border: 1px solid black;
-}
+    .table-info th,
+    td {
+        text-align: left;
+        padding: 8px;
+        border: 1px solid black;
+    }
 
-.table-info tr:nth-child(even) {
-    background-color: #f2f2f2
-}
+    .table-info tr:nth-child(even) {
+        background-color: #f2f2f2
+    }
 
-.table-info thead {
-    background-color: #7A7A7A;
-    color: white;
-}
+    .table-info thead {
+        background-color: #7A7A7A;
+        color: white;
+    }
 
 
 /* The container <div> - needed to position the dropdown content */
@@ -41,21 +41,21 @@ td {
 }
 
 
-/* Links inside the dropdown */
+    /* Links inside the dropdown */
 
-.dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-}
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
 
 
-/* Change color of dropdown links on hover */
+        /* Change color of dropdown links on hover */
 
-.dropdown-content a:hover {
-    background-color: #ddd
-}
+        .dropdown-content a:hover {
+            background-color: #ddd
+        }
 
 
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
@@ -87,9 +87,7 @@ h1 {
 
 .header,
 .middle,
-
 /*.left-sidebar,*/
-
 .content {
     border: 1px solid black;
     border-radius: 10px;
@@ -101,15 +99,14 @@ h1 {
 .wrapper,
 .footer {
     position: relative;
-    display: flex;
     margin: 0;
     box-sizing: border-box;
-    margin-left: auto;
-    margin-right: auto;
     width: 95%;
     min-width: 1200px;
     max-width: 1400px;
-    display: table;
+    /*display: table;*/
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .wrapper {
@@ -145,34 +142,34 @@ h1 {
     /*margin-top: 3px;*/
 }
 
-.middle .left-sidebar,
-.middle .container {
-    /**/
-    box-sizing: border-box;
-    /**/
-    position: relative;
-    height: 100%;
-    display: table-cell;
-}
+    .middle .left-sidebar,
+    .middle .container {
+        /**/
+        box-sizing: border-box;
+        /**/
+        position: relative;
+        height: 100%;
+        display: table-cell;
+    }
 
-.middle .left-sidebar {
-    width: 190px;
-    top: 0;
-    left: 0;
-}
+    .middle .left-sidebar {
+        width: 190px;
+        top: 0;
+        left: 0;
+    }
 
-.middle .left-sidebar .nav__link {
-    margin-top: 10px;
-}
+        .middle .left-sidebar .nav__link {
+            margin-top: 10px;
+        }
 
-.middle .container {
-    min-width: 620px;
-    max-width: 1000px;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    overflow-y: auto;
-}
+    .middle .container {
+        min-width: 620px;
+        max-width: 1000px;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        overflow-y: auto;
+    }
 
 .content {
     box-sizing: border-box;
@@ -199,13 +196,13 @@ h1 {
     z-index: 1000;
 }
 
-.header .container {
-    width: 100%;
-    margin: 0 auto;
-    position: relative;
-    top: 50%;
-    transform: translate(0, -50%);
-}
+    .header .container {
+        width: 100%;
+        margin: 0 auto;
+        position: relative;
+        top: 50%;
+        transform: translate(0, -50%);
+    }
 
 .header__inner {
     padding-left: 20px;
@@ -243,9 +240,9 @@ h1 {
     right: 0;
 }
 
-.butt.nav__link {
-    margin-right: 0;
-}
+    .butt.nav__link {
+        margin-right: 0;
+    }
 
 
 /* butt / tools */
@@ -268,41 +265,41 @@ h1 {
     font-weight: bolder;
 }
 
-.nav__link:after {
-    content: "";
-    display: block;
-    width: 100%;
-    height: 3px;
-    background-color: black;
-    opacity: 0;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    z-index: 1;
-    transition: opacity .1s linear;
-}
+    .nav__link:after {
+        content: "";
+        display: block;
+        width: 100%;
+        height: 3px;
+        background-color: black;
+        opacity: 0;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        z-index: 1;
+        transition: opacity .1s linear;
+    }
 
-.nav__link:hover:after,
-.nav__link.active:after {
-    opacity: 1;
-}
+    .nav__link:hover:after,
+    .nav__link.active:after {
+        opacity: 1;
+    }
 
-.nav__link.active,
-.nav__link:hover,
-.nav__link,
-.header__logo {
-    color: black;
-}
+    .nav__link.active,
+    .nav__link:hover,
+    .nav__link,
+    .header__logo {
+        color: black;
+    }
 
 
-/* цвета */
+        /* цвета */
 
-.nav__link.active,
-.nav__link:hover,
-.nav__link,
-.header__logo {
-    color: #030303;
-}
+        .nav__link.active,
+        .nav__link:hover,
+        .nav__link,
+        .header__logo {
+            color: #030303;
+        }
 
 .header {
     background-color: #899593;
