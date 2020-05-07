@@ -26,6 +26,8 @@ td {
 .dropdown {
     position: relative;
     display: inline-block;
+    vertical-align: top;
+    margin: 0;
 }
 
 
@@ -35,7 +37,7 @@ td {
     display: none;
     position: absolute;
     background-color: #f1f1f1;
-    min-width: 160px;
+    width: 90px;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
 }
@@ -101,7 +103,6 @@ h1 {
 .wrapper,
 .footer {
     position: relative;
-    display: flex;
     margin: 0;
     box-sizing: border-box;
     margin-left: auto;
@@ -109,7 +110,7 @@ h1 {
     width: 95%;
     min-width: 1200px;
     max-width: 1400px;
-    display: table;
+    /*display: table;*/
 }
 
 .wrapper {
@@ -181,7 +182,7 @@ h1 {
     height: 100%;
     width: 90%;
     margin: 0 auto;
-    padding: 10px;
+    padding: 15px;
     background-color: white;
 }
 
@@ -219,6 +220,47 @@ h1 {
     font-size: 30px;
     font-weight: 700;
 }
+
+
+/* ca_lab / ca_input */
+
+.ca_ {
+    margin: 0 0 10px 0;
+}
+
+.ca_lab {
+    margin: 0 70% 0 0;
+}
+
+.ca_lab,
+.ca_input {
+    position: relative;
+    font-size: 24;
+}
+
+.ca_input {
+    border: 2px solid #2c3632;
+    border-radius: 10px;
+    width: 370px;
+}
+
+.validation-summary-errors,
+.field-validation-error {
+    color: red;
+}
+
+.validation-summary-errors ul li {
+    list-style-type: none;
+}
+
+.validation-summary-errors ul {
+    margin-left: 0;
+    /* Отступ слева в браузере IE и Opera */
+    padding-left: 0;
+}
+
+
+/* ca_lab / ca_input */
 
 
 /* butt / tools */

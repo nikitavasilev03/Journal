@@ -16,11 +16,9 @@
             <div class="container">
                 <div class="header__inner">
                     <div class="header__logo">СПОРТКОМПЛЕКС ОЛИМП</div>
-
                     <nav class="nav">
                         <a class="nav__link" href="/">Начальная страница</a>
-
-                        <div onmouseover="hoverInUser()" onmouseout="hoverOutUser()" class="dropdown">
+                        <div class="dropdown" onmouseover="hoverInUser()" onmouseout="hoverOutUser()">
                             <a class="nav__link" href="#">vna.17</a>
                             <div id="myDropdown" class="dropdown-content">
                                 <a href="/Account/Logout">Выйти</a>
@@ -41,7 +39,41 @@
             <div class="container">
                 <main class="content">
                     <!-- test -->
-                    <div class="tools">
+                    <form action="/Home/CreateAccount" method="post">
+                        <div class="validation validation-summary-errors">
+                            <ul>
+                                <li>Аккаунт с таким логином уже существует</li>
+                            </ul>
+                        </div>
+                        <div class="ca_">
+                            <label class="ca_lab" for="Login">Логин</label>
+                            <input class="ca_input" type="text" data-val="true" data-val-required="Не указан логин" id="Login" name="Login" value="">
+                            <span class="field-validation-error" data-valmsg-for="Login" data-valmsg-replace="true"><span id="Login-error" class="">Не указан логин</span></span>
+                        </div>
+                        <div class="ca_">
+                            <label class="ca_lab" for="Password">Password</label>
+                            <input class="ca_input" type="text" data-val="true" data-val-required="Не указан пароль" id="Password" name="Password" value="">
+                            <span class="field-validation-error" data-valmsg-for="Password" data-valmsg-replace="true"><span id="Password-error" class="">Не указан пароль</span></span>
+                        </div>
+                        <div class="ca_">
+                            <label class="ca_lab" for="DateEnd">Дата окончания учетной записи</label>
+                            <input class="ca_input" type="date" data-val="true" data-val-required="The DateEnd field is required." id="DateEnd" name="DateEnd" value="">
+                            <span class="field-validation-valid" data-valmsg-for="DateEnd" data-valmsg-replace="true"></span>
+                        </div>
+                        <div class="ca_">
+                            <label class="ca_lab" for="account_type">Тип учётной записи</label>
+                            <select class="ca_input">
+                                <option value="admin">АДМИНИСТРАТОР</option>
+                                <option value="teacher">ПРЕПОДАВАТЕЛЬ</option>
+                                <option value="student">СТУДЕНТ</option>
+                            </select>
+                        </div>
+                        <div class="ca_">
+                            <input class="ca_input" type="submit" value="Отправить">
+                        </div>
+
+                        <input name="__RequestVerificationToken" type="hidden" value="CfDJ8GlcBuQbb6pCki7onRmXZJiEDtMSPbWKWI-9VgaB1wKpj2HNDUw3I1sK1T7Bmuntia033wqHc1UhUJjWwZGbPYdBLBuCnnMC7XYso6iof6q5SBMbBg2UcjE-xQn7-3uKY08gJtaNFjDN4Dp-W17Oa1dVHojgtVTjh6nk4qCDLvNBHqijjXJIqBkgvCo4xQ7L3A"></form>
+                    <!--<div class="tools">
                         <h1>АККАУНТЫ</h1>
                         <a class="nav__link butt" href="/Home/CreateAccount">Создать аккаунт</a>
                     </div>
@@ -82,7 +114,7 @@
                                 <td><a class="nav__link" href="#">Изменить</a></td>
                             </tr>
                         </tbody>
-                    </table>
+                    </table>-->
                     <!-- test -->
                 </main>
             </div>
