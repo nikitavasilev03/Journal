@@ -13,7 +13,7 @@
                 <nav class="nav">
                     <a class="nav__link" asp-controller="Start" asp-action="Index">Начальная страница</a>
                     @{
-                        await Html.RenderPartialAsync("_User", User.Identity.Name);
+                        await Html.RenderPartialAsync("/Views/Home/_User.cshtml", User.Identity.Name);
                     }
                 </nav>
             </div>
@@ -21,7 +21,7 @@
     </header>
     <div class="middle">
         @{
-            await Html.RenderPartialAsync("_AdminSidebar", User.Identity.Name);
+            await Html.RenderPartialAsync("/Views/Admin/_AdminSidebar.cshtml", User.Identity.Name);
 
         }
         <div class="container">

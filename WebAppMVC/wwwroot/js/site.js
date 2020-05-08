@@ -16,3 +16,16 @@ function hoverOutUser() {
         }
     }
 }
+
+function hideBlock(checkboxId, elemForHideId) {
+	checkbox = document.getElementById(checkboxId);
+	elem = document.getElementById(elemForHideId);
+	if (checkbox.checked){
+		elem.hidden = true;
+		elem.value = "#";
+	}
+	else{
+		elem.hidden = false;
+		elem.value = "";
+	}
+}

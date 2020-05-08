@@ -1,0 +1,33 @@
+﻿@{
+    Layout = "~/Views/Home/Index.cshtml";
+    ViewData["Title"] = "Home Page";
+}
+@model WebAppMVC.ViewModel.TeacherViewModel
+
+<form asp-action="CreateTeacher" asp-controller="Admin">
+
+    <div class="validation" asp-validation-summary="ModelOnly"></div>
+    <div class="ca_">
+        <label class="ca_lab" asp-for="Id">Индификатор аккаунта:</label>
+        <input class="ca_input" type="text" asp-for="Id" />
+        <span asp-validation-for="Id"></span>
+    </div>
+    <div class="ca_">
+        <label class="ca_lab" asp-for="SecondName">Фамилия:</label>
+        <input class="ca_input" type="text" asp-for="SecondName" />
+        <span asp-validation-for="SecondName"></span>
+    </div>
+    <div class="ca_">
+        <label class="ca_lab" asp-for="FirstName">Имя:</label>
+        <input class="ca_input" type="text" asp-for="FirstName" />
+        <span asp-validation-for="FirstName"></span>
+    </div>
+    <div class="ca_">
+        <label class="ca_lab" asp-for="LastName">Отчество:</label>
+        <input class="ca_input" type="text" asp-for="LastName" />
+        <span asp-validation-for="LastName"></span>
+    </div>
+    <div class="ca_">
+        <input class="ca_input" type="submit" value="Добавить" />
+    </div>
+</form>

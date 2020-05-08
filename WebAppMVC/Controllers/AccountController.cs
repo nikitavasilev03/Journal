@@ -30,10 +30,10 @@ namespace WebAppMVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                Account account = await db.Accounts.FirstOrDefaultAsync(u => u.LoginName == model.Login && u.Hpassword == model.Password);
+                Account account = await db.Accounts.FirstOrDefaultAsync(u => u.LoginName == model.Login && u.Hpassword == DomainCore.Helpers.Password.Hash(model.Password));
                 if (account != null)
                 {
-                    await Authenticate(model.Login); // аутентификация
+                    await Authenticate(account.LoginName, account.AccountType); // аутентификация
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -43,12 +43,13 @@ namespace WebAppMVC.Controllers
         }
 
 
-        private async Task Authenticate(string userName)
+        private async Task Authenticate(string userName, string userRole)
         {
             // создаем один claim
             var claims = new List<Claim>
             {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
+                new Claim(ClaimsIdentity.DefaultNameClaimType, userName),
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, userRole)
             };
             // создаем объект ClaimsIdentity
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
