@@ -26,8 +26,8 @@
             <tr>
                 <td>@item.AccountId</td>
                 <td>@item.LoginName</td>
-                <td>@item.DateCreate</td>
-                <td>@item.DateEnd</td>
+                <td>@item.DateCreate.ToString("dd:MM:yyyy")</td>
+                <td>@item.DateEnd?.ToString("dd:MM:yyyy")</td>
                 <td>@item.AccountType</td>
                 <td>
                     <a class="nav__link" asp-controller="Admin" asp-action="EditAccount" asp-route-id="@item.AccountId">Изменить</a>/

@@ -1,0 +1,44 @@
+﻿@{
+    Layout = "~/Views/Home/Index.cshtml";
+    ViewData["Title"] = "Home Page";
+}
+@model WebAppMVC.ViewModel.AttendanceViewModel
+
+
+<h1>Посещаемость</h1>
+<form asp-action="ShowJournal" asp-controller="Teacher">
+
+    <div class="validation" asp-validation-summary="ModelOnly"></div>
+
+    <div class="ca_">
+        <label class="ca_lab" asp-for="CurrentSubjectId">Выберите предмет</label>
+        <select class="ca_input" asp-for="CurrentSubjectId">
+            @foreach (var item in Model.Subjects)
+            {
+                <option value="@item.SubjectId">@item.SubjectName</option>
+            }
+        </select>
+        <span asp-validation-for="CurrentSubjectId"></span>
+    </div>
+
+    <div class="ca_">
+        <label asp-for="Day">День:</label>
+        <input type="date" asp-for="Day" asp-format="{0:yyyy-MM-dd}">
+        <span asp-validation-for="Day"></span>
+    </div>
+
+    <div class="ca_">
+        <label asp-for="NumberLeson">Номер занятия:</label>
+        <input type="number" asp-for="NumberLeson" max="6" min="1" />
+        <span asp-validation-for="NumberLeson"></span>
+    </div>
+
+    <div class="ca_">
+        <input class="ca_input" type="submit" value="Показать" />
+    </div>
+</form>
+
+@{
+    if (Model.Journals != null)
+        await Html.RenderPartialAsync("/Views/Teacher/_Journal.cshtml", Model);
+}

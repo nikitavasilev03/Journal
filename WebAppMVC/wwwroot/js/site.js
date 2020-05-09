@@ -29,3 +29,20 @@ function hideBlock(checkboxId, elemForHideId) {
 		elem.value = "";
 	}
 }
+
+function changeAttendance(elem, _subjectId, _studentId, _date){
+	
+	let data = {
+		subjectId : _subjectId,
+		studentId : _studentId,
+		date : _date	
+	};
+
+	if (elem.checked){
+		$.post("/Teacher/AttendanceAdd", data, null, "json");
+	}
+	else{
+		$.post("/Teacher/AttendanceRemove", data, null, "json");
+	}
+
+}

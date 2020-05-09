@@ -1,0 +1,36 @@
+﻿@{
+    Layout = "~/Views/Home/Index.cshtml";
+    ViewData["Title"] = "Home Page";
+}
+@model WebAppMVC.ViewModel.TimeTableViewModel
+
+<h1>Расписание</h1>
+
+@{
+    Model.DayOfWeek = 1;
+    await Html.RenderPartialAsync("/Views/Teacher/_PartTimeTable.cshtml", Model);
+}
+@{
+    Model.DayOfWeek = 2;
+    await Html.RenderPartialAsync("/Views/Teacher/_PartTimeTable.cshtml", Model);
+}
+@{
+    Model.DayOfWeek = 3;
+    await Html.RenderPartialAsync("/Views/Teacher/_PartTimeTable.cshtml", Model);
+}
+@{
+    Model.DayOfWeek = 4;
+    await Html.RenderPartialAsync("/Views/Teacher/_PartTimeTable.cshtml", Model);
+}
+@{
+    Model.DayOfWeek = 5;
+    await Html.RenderPartialAsync("/Views/Teacher/_PartTimeTable.cshtml", Model);
+}
+@{
+    Model.DayOfWeek = 6;
+    await Html.RenderPartialAsync("/Views/Teacher/_PartTimeTable.cshtml", Model);
+}
+@{
+    Model.DayOfWeek = 7;
+    await Html.RenderPartialAsync("/Views/Teacher/_PartTimeTable.cshtml", Model);
+}

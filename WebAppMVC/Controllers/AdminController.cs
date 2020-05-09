@@ -26,8 +26,6 @@ namespace WebAppMVC.Controllers
             db = context;
         }
 
-
-
         #region MenuBar
         [Route("Index")]
         public IActionResult Index()
@@ -150,8 +148,6 @@ namespace WebAppMVC.Controllers
         #endregion
 
         #region StudentManage
-
-
         
         [Route("CreateStudent")]
         [HttpGet]

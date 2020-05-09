@@ -1,0 +1,12 @@
+﻿@{
+    Layout = "~/Views/Home/Index.cshtml";
+    ViewData["Title"] = "Home Page";
+}
+@model  DomainCore.Models.Teacher
+
+<h1>ПРОФИЛЬ</h1>
+<h2>Тип учетной записи: Преподаватель</h2>
+
+<h2>Фамилия: @Model.TeacherSname</h2>
+<h2>Имя: @Model.TeacherName</h2>
+<h2>Отчество: @Model.TeacherLname</h2>

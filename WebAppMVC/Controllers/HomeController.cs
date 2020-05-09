@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAppMVC.Controllers
@@ -10,7 +9,13 @@ namespace WebAppMVC.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            return RedirectToAction("Index", "Admin");
+            if (User.IsInRole("Administrator"))
+                return RedirectToAction("Index", "Admin");
+            if (User.IsInRole("Student"))
+                return RedirectToAction("Index", "Student");
+            if (User.IsInRole("Teacher"))
+                return RedirectToAction("Index", "Teacher");
+            return RedirectToAction("Index", "Start");
         }
     }
 }
