@@ -91,11 +91,15 @@ namespace WebAppMVC.Controllers
             return View("Timetable", model);
         }
 
+        [HttpGet]
         [Route("Journal")]
         public IActionResult Journal()
         {
-            var subjects = db.Subjects.
-                Where(s => CurrnetAttendance.FirstOrDefault(a => a.SubjectId == s.SubjectId) != null);
+            var records = db.Records.Where(r => CurrnetTimetable.FirstOrDefault(t => t.RecordId == r.RecordId) != null);
+            var subjects = db.Subjects.Where(s => records.FirstOrDefault(t => t.SubjectId == s.SubjectId) != null);
+
+            if (subjects.Count() == 0)
+                return View("Journal", null);
 
             JournalViewModel model = new JournalViewModel
             {

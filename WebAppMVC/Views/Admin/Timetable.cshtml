@@ -4,7 +4,7 @@
 }
 @model WebAppMVC.ViewModel.TeacherSubjectsViewModel
 
-<h1>Расписание</h1>
+<h1 class="h-title h1-title">Расписание</h1>
 <form asp-action="ShowTimetable" asp-controller="Admin" asp-route-id="@Model.CurrentTeacher.AccountId">
 
     <div class="validation" asp-validation-summary="ModelOnly"></div>
@@ -26,7 +26,7 @@
 
 </form>
 
-@{
-    if (Model.CurrentSubject != null)
-        await Html.RenderPartialAsync("/Views/Admin/_Timetable.cshtml", Model);
+@if (Model.CurrentSubject != null)
+{
+    await Html.RenderPartialAsync("/Views/Admin/_Timetable.cshtml", Model);
 }

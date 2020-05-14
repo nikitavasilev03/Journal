@@ -429,15 +429,15 @@ namespace WebAppMVC.Controllers
 
         [Route("StudentSubjects")]
         [HttpGet]
-        public async Task<IActionResult> StudentSubjects(int? id)
+        public async Task<IActionResult> StudentSubjects(int? stud)
         {
-            if (id != null)
+            if (stud != null)
             {
-                Student student = await db.Students.FirstOrDefaultAsync(u => u.AccountId == id);
+                Student student = await db.Students.FirstOrDefaultAsync(u => u.AccountId == stud);
                 if (student == null)
                     return RedirectToAction("Studetns");
 
-                var records = db.Records.Where(r => r.StudentAccountId == id);
+                var records = db.Records.Where(r => r.StudentAccountId == stud);
                 var subjects = db.Subjects.Where(s => records.FirstOrDefault(r => r.SubjectId == s.SubjectId) != null);
 
                 return View("StudentSubjects", new StudentsSubjectsViewModel
@@ -461,7 +461,7 @@ namespace WebAppMVC.Controllers
                 return RedirectToAction("StudentSubjects",
                     new Dictionary<string, string>
                     {
-                        {"id", id?.ToString() }
+                        {"stud", id?.ToString() }
                     });
             return View("Create/Record", new RecordViewModel
             {
@@ -480,7 +480,7 @@ namespace WebAppMVC.Controllers
                     return RedirectToAction("StudentSubjects",
                     new Dictionary<string, string>
                     {
-                        {"id", id?.ToString() }
+                        {"stud", id?.ToString() }
                     });
 
                 var record = new Record
@@ -498,7 +498,7 @@ namespace WebAppMVC.Controllers
                 return RedirectToAction("StudentSubjects",
                     new Dictionary<string, string>
                     {
-                        {"id", id?.ToString() }
+                        {"stud", id?.ToString() }
                     });
             }
             return View("Create/Record", model);
@@ -520,7 +520,7 @@ namespace WebAppMVC.Controllers
                 return RedirectToAction("StudentSubjects",
                     new Dictionary<string, string>
                     {
-                        {"id", id?.ToString() }
+                        {"stud", id?.ToString() }
                     });
 
             RecordViewModel model = new RecordViewModel(record)
@@ -549,7 +549,7 @@ namespace WebAppMVC.Controllers
                     return RedirectToAction("StudentSubjects",
                     new Dictionary<string, string>
                     {
-                        {"id", record.StudentAccountId.ToString() }
+                        {"stud", record.StudentAccountId.ToString() }
                     });
 
                 //record.SubjectId = model.SubjectId;
@@ -561,7 +561,7 @@ namespace WebAppMVC.Controllers
                 return RedirectToAction("StudentSubjects",
                     new Dictionary<string, string>
                     {
-                        {"id", record.StudentAccountId.ToString() }
+                        {"stud", record.StudentAccountId.ToString() }
                     });
             }
             return View("Create/Record", model);
@@ -578,7 +578,7 @@ namespace WebAppMVC.Controllers
                     return RedirectToAction("StudentSubjects",
                     new Dictionary<string, string>
                     {
-                        {"id", record.StudentAccountId.ToString() }
+                        {"stud", record.StudentAccountId.ToString() }
                     });
 
                 db.Records.Remove(record);
@@ -587,7 +587,7 @@ namespace WebAppMVC.Controllers
                 return RedirectToAction("StudentSubjects",
                     new Dictionary<string, string>
                     {
-                        {"id", record.StudentAccountId.ToString() }
+                        {"stud", record.StudentAccountId.ToString() }
                     });
             }
             return RedirectToAction("StudentSubjects", "Students");
@@ -595,7 +595,7 @@ namespace WebAppMVC.Controllers
 
         #endregion
 
-
+        #region TimetableManage
         [Route("Timetable")]
         [HttpGet]
         public async Task<IActionResult> Timetable(int? teach, int? subj)
@@ -642,37 +642,6 @@ namespace WebAppMVC.Controllers
             }
             return RedirectToAction("Teachers");
         }
-
-        //[Route("Timetable")]
-        //[HttpGet]
-        //public IActionResult Timetable()
-        //{
-        //    if (teach != null && subj != null)
-        //    {
-        //        Teacher teacher = db.Teachers.FirstOrDefault(u => u.AccountId == teach);
-        //        Subject subject = db.Subjects.FirstOrDefault(s => s.SubjectId == subj);
-        //        if (teacher == null || subject == null)
-        //            return RedirectToAction("Teachers");
-
-        //        var tempRecords = db.Records.Where(r => r.SubjectId == subject.SubjectId);
-        //        var timetable = db.Timetable.Where(tt => tempRecords.FirstOrDefault(r => r.RecordId == tt.RecordId) != null && tt.TeacherAccountId == teacher.AccountId);
-        //        var records = tempRecords.Where(r => timetable.FirstOrDefault(tt => tt.RecordId == r.RecordId) != null);
-        //        var students = db.Students.Where(s => records.FirstOrDefault(r => r.StudentAccountId == s.AccountId) != null);
-
-        //        var model = new TeacherSubjectsViewModel
-        //        {
-        //            CurrentTeacher = teacher,
-        //            CurrentSubject = subject,
-        //            Records = records,
-        //            Timetable = timetable,
-        //            Students = students,
-        //            Subjects = db.Subjects
-        //        };
-
-        //        return View("Timetable", model);
-        //    }
-        //    return RedirectToAction("Teachers");
-        //}
 
         [Route("ShowTimetable")]
         [HttpPost]
@@ -794,6 +763,8 @@ namespace WebAppMVC.Controllers
                         { "subj", subj.ToString() }
                     });
         }
+
+        #endregion
 
         [AcceptVerbs("GET", "POST")]
         public async Task<IActionResult> VerifyId(decimal id)

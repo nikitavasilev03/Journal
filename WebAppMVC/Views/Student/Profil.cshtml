@@ -3,5 +3,12 @@
     ViewData["Title"] = "Home Page";
 }
 
-<h1>ПРОФИЛЬ</h1>
-<h2>Тип учетной записи: Студент</h2>
+@model DomainCore.Models.Student
+
+<h1 class="h-title h1-title">ПРОФИЛЬ</h1>
+<h2 class="h2-title">Тип учетной записи: Студент</h2>
+
+<h2 class="h2-title">Фамилия: @Model.StudentSname</h2>
+<h2 class="h2-title">Имя: @Model.StudentName</h2>
+<h2 class="h2-title">Отчество: @Model.StudentLname</h2>
+<h2 class="h2-title">Группа: @Model.StudentGroup</h2>

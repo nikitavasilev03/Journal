@@ -4,23 +4,14 @@
 }
 @model WebAppMVC.ViewModel.RecordViewModel
 
-<h1>Изменение записи студента на дисциплину</h1>
-<h2>@Model.Student.StudentSname @Model.Student.StudentName @Model.Student.StudentLname @Model.Student.StudentGroup</h2>
+<a class="nav_link" asp-action="StudentSubjects" asp-controller="Admin"
+   asp-route-stud="@Model.Student.AccountId">Назад</a>
+<h1 class="h-title h1-title">Изменение записи студента на дисциплину</h1>
+<h2 class="h2-title h-title">@Model.Student.StudentSname @Model.Student.StudentName @Model.Student.StudentLname @Model.Student.StudentGroup</h2>
 
 <form asp-action="EditRecord" asp-controller="Admin" asp-route-id="@Model.Id">
 
     <div class="validation" asp-validation-summary="ModelOnly"></div>
-
-    @*<div class="ca_">
-        <label class="ca_lab" asp-for="SubjectId">Дисциплина:</label>
-        <select class="ca_input" asp-for="SubjectId">
-            @foreach (var item in Model.Subjects)
-            {
-                <option value="@item.SubjectId">@item.SubjectName : @item.NeedVisits</option>
-            }
-        </select>
-        <span asp-validation-for="SubjectId"></span>
-    </div>*@
 
     <div class="ca_">
         <label asp-for="DateEnd">Дата окончания:</label>

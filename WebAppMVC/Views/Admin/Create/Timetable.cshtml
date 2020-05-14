@@ -4,7 +4,10 @@
 }
 @model WebAppMVC.ViewModel.TeacherSubjectsViewModel
 
-<h1>Записи на @Model.CurrentSubject.SubjectName</h1>
+<a class="nav_link" asp-action="Timetable" asp-controller="Admin"
+   asp-route-teach="@Model.CurrentTeacher.AccountId"
+   asp-route-subj="@Model.CurrentSubject.SubjectId">Назад</a>
+<h1 class="h-title h1-title">Записи на @Model.CurrentSubject.SubjectName</h1>
 <div>
     <div class="ca_">
         <label class="ca_lab">День недели:</label>
@@ -44,7 +47,7 @@
                 <td>@record.DateStart.ToString("dd:MM:yyyy")</td>
                 <td>@record.DateEnd.ToString("dd:MM:yyyy")</td>
                 <td>
-                    <a class="nav__link" onclick="addToTimetable(@Model.CurrentTeacher.AccountId, @record.RecordId)">Добавить</a>
+                    <a class="nav__link" href="#" onclick="addToTimetable(@Model.CurrentTeacher.AccountId, @record.RecordId)">Добавить</a>
                 </td>
             </tr>
         }

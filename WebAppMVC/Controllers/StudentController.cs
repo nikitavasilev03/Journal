@@ -40,14 +40,14 @@ namespace WebAppMVC.Controllers
         [Route("Index")]
         public IActionResult Index()
         {
-            return View("Profil");
+            return View("Profil", CurrentUser);
         }
         
         [HttpGet]
         [Route("Profil")]
         public IActionResult Profil()
         {
-            return View("Profil");
+            return View("Profil", CurrentUser);
         }
 
         [HttpGet]

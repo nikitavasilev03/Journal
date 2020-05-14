@@ -5,34 +5,41 @@
 @model WebAppMVC.ViewModel.StudentsSubjectsViewModel
 
 <div class="tools">
-    <h1>@Model.Student.StudentSname @Model.Student.StudentName @Model.Student.StudentLname @Model.Student.StudentGroup</h1>
-    <a class="nav__link butt" asp-controller="Admin" asp-action="AddRecord" asp-route-id="@Model.Student.AccountId">Добавить</a>
+    <h1 class="h-title h1-title">@Model.Student.StudentSname @Model.Student.StudentName @Model.Student.StudentLname @Model.Student.StudentGroup</h1>
+    <a class="nav_link butt" asp-controller="Admin" asp-action="AddRecord" asp-route-id="@Model.Student.AccountId">Добавить</a>
 </div>
-<table class="table-info">
-    <thead>
-        <tr>
-            <td>Дисциплина</td>
-            <td>Дата записи</td>
-            <td>Дата окончания</td>
-            <td>Количество посещений</td>
-            <td>Необходимо посещений</td>
-            <td>Управление</td>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Records)
-        {
-        <tr>
-            <td>@Model.Subjects.FirstOrDefault(s => s.SubjectId == item.SubjectId)?.SubjectName</td>
-            <td>@item.DateStart.ToString("dd:MM:yyyy")</td>
-            <td>@item.DateEnd.ToString("dd:MM:yyyy")</td>
-            <td>@item.NumberVisits</td>
-            <td>@Model.Subjects.FirstOrDefault(s => s.SubjectId == item.SubjectId)?.NeedVisits</td>
-            <td>
-                <a class="nav__link" asp-controller="Admin" asp-action="EditRecord" asp-route-id="@item.RecordId">Изменить</a>/
-                <a class="nav__link" asp-controller="Admin" asp-action="RemoveRecord" asp-route-id="@item.RecordId">Удалить</a>
-            </td>
-        </tr>
-        }
-    </tbody>
-</table>
+@if (Model.Records.Count() == 0)
+{
+    <h2 class="h2-title h-title">Нет данных</h2>
+}
+else
+{
+    <table class="table-info">
+        <thead>
+            <tr>
+                <td>Дисциплина</td>
+                <td>Дата записи</td>
+                <td>Дата окончания</td>
+                <td>Количество посещений</td>
+                <td>Необходимо посещений</td>
+                <td>Управление</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Records)
+            {
+                <tr>
+                    <td>@Model.Subjects.FirstOrDefault(s => s.SubjectId == item.SubjectId)?.SubjectName</td>
+                    <td>@item.DateStart.ToString("dd.MM.yyyy")</td>
+                    <td>@item.DateEnd.ToString("dd.MM.yyyy")</td>
+                    <td>@item.NumberVisits</td>
+                    <td>@Model.Subjects.FirstOrDefault(s => s.SubjectId == item.SubjectId)?.NeedVisits</td>
+                    <td>
+                        <a class="nav__link" asp-controller="Admin" asp-action="EditRecord" asp-route-id="@item.RecordId">Изменить</a>/
+                        <a class="nav__link" asp-controller="Admin" asp-action="RemoveRecord" asp-route-id="@item.RecordId">Удалить</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

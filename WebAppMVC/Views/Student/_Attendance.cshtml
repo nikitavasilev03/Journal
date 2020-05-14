@@ -1,5 +1,6 @@
 ﻿@model WebAppMVC.ViewModel.StudentAttendanceViewModel
 
+<h2 class="h2-title">Инфо</h2>
 <table class="table-info">
     <thead>
         <tr>
@@ -10,7 +11,7 @@
         </tr>
     </thead>
     <tbody>
-        @{ 
+        @{
             var record = Model.Records.FirstOrDefault(r => r.SubjectId == Model.CurrentSubject.SubjectId);
             <tr>
                 <td>@record.DateStart.ToString("dd.MM.yyyy")</td>
@@ -22,6 +23,7 @@
     </tbody>
 </table>
 
+<h2 class="h2-title">История посещений</h2>
 <table class="table-info">
     <thead>
         <tr>
@@ -34,7 +36,7 @@
         @foreach (var journal in Model.Journals.OrderByDescending(j => j.VisitDate))
         {
             <tr>
-                @{ 
+                @{
                     var teacher = Model.Teachers.FirstOrDefault(t => t.AccountId == journal.TeacherAccountId);
                 }
                 <td>@teacher.TeacherSname @teacher.TeacherName @teacher.TeacherLname</td>
