@@ -72,48 +72,47 @@ namespace WebAppMVC.Controllers
         {
             return View("Profil", CurrentUser);
         }
-        
+
         [HttpGet]
         [Route("Timetable")]
-        public async Task<IActionResult> Timetable()
+        public IActionResult Timetable()
         {
-            var tt = CurrnetTimetable.AsEnumerable()
-                .GroupBy(t => t.RecordId)
-                .Select(t => t.First());
-            foreach (var item in tt)
-                item.Record = await db.Records.FirstOrDefaultAsync(r => r.RecordId == item.RecordId);
+            var timetable = CurrnetTimetable;
+            var records = db.Records.Where(r => timetable.FirstOrDefault(tt => tt.RecordId == r.RecordId) != null);
+            var subjects = db.Subjects.Where(s => records.FirstOrDefault(r => r.SubjectId == s.SubjectId) != null);
 
             TimetableViewModel model = new TimetableViewModel
             {
-                Timetable = tt,
-                Subjects = db.Subjects
+                Timetable = timetable,
+                Records = records,
+                Subjects = subjects
             };
 
             return View("Timetable", model);
         }
 
-        [Route("Attendance")]
-        public IActionResult Attendance()
+        [Route("Journal")]
+        public IActionResult Journal()
         {
             var subjects = db.Subjects.
                 Where(s => CurrnetAttendance.FirstOrDefault(a => a.SubjectId == s.SubjectId) != null);
 
-            AttendanceViewModel model = new AttendanceViewModel
+            JournalViewModel model = new JournalViewModel
             {
                 Subjects = subjects,
                 CurrentSubjectId = subjects.FirstOrDefault().SubjectId,
                 Day = DateTime.Now
             };
 
-            return View("Attendance", model);
+            return View("Journal", model);
         }
 
         [HttpPost]
         [Route("ShowJournal")]
-        public IActionResult ShowJournal(AttendanceViewModel model)
+        public IActionResult ShowJournal(JournalViewModel model)
         {
             if (!ModelState.IsValid)
-                return RedirectToAction("Attendance");
+                return RedirectToAction("Journal");
 
             //Занятие преподователя в текущее время
             var timetable = CurrnetTimetable
@@ -124,10 +123,8 @@ namespace WebAppMVC.Controllers
                 var subjects = db.Subjects.
                     Where(s => CurrnetAttendance.FirstOrDefault(a => a.SubjectId == s.SubjectId) != null);
                 model.Subjects = subjects;
-
                 ModelState.AddModelError("", "У вас нет занятий в это время");
-
-                return View("Attendance", model);
+                return View("Journal", model);
             }
             //Записи на занятие в текущее время
             var records = db.Records.AsEnumerable()
@@ -138,10 +135,8 @@ namespace WebAppMVC.Controllers
                 var subjects = db.Subjects.
                     Where(s => CurrnetAttendance.FirstOrDefault(a => a.SubjectId == s.SubjectId) != null);
                 model.Subjects = subjects;
-
                 ModelState.AddModelError("", "Нет записей на данное занятие");
-
-                return View("Attendance", model);
+                return View("Journal", model);
             }
 
             //Студенты на текущее время
@@ -152,18 +147,18 @@ namespace WebAppMVC.Controllers
                .Where(s => CurrnetAttendance.FirstOrDefault(a => a.SubjectId == s.SubjectId) != null);
 
             model.Journals = db.Journals.AsEnumerable()
-                .Where(j => model.Students.FirstOrDefault(s => s.AccountId == j.StudentAccountId) != null && 
+                .Where(j => model.Students.FirstOrDefault(s => s.AccountId == j.StudentAccountId) != null &&
                         j.SubjectId == model.CurrentSubjectId &&
-                        j.TeacherAccountId == CurrentUser.AccountId && 
+                        j.TeacherAccountId == CurrentUser.AccountId &&
                         j.VisitDate == model.Day
                         );
 
-            return View("Attendance", model);
+            return View("Journal", model);
         }
 
         [HttpPost]
-        [Route("AttendanceAdd")]
-        public void AttendanceAdd(int subjectId, int studentId, DateTime date)
+        [Route("JournalAdd")]
+        public void JournalAdd(int subjectId, int studentId, DateTime date)
         {
             Journal journal = new Journal
             {
@@ -178,15 +173,15 @@ namespace WebAppMVC.Controllers
         }
 
         [HttpPost]
-        [Route("AttendanceRemove")]
-        public void AttendanceRemove(int subjectId, int studentId, DateTime date)
+        [Route("JournalRemove")]
+        public void JournalRemove(int subjectId, int studentId, DateTime date)
         {
             var journal = db.Journals.FirstOrDefault(
-                j => j.StudentAccountId == subjectId &&
-                     j.SubjectId == studentId &&
-                     j.VisitDate == date
+                j => j.StudentAccountId == studentId &&
+                     j.SubjectId == subjectId &&
+                     j.VisitDate.Value.Date == date.Date
             );
-            
+
             if (journal == null)
                 return;
 
@@ -195,5 +190,79 @@ namespace WebAppMVC.Controllers
         }
 
         #endregion
+
+        [HttpGet]
+        [Route("Attendance")]
+        public IActionResult Attendance(decimal? gr, decimal? subj)
+        {
+            var timetable = db.Timetable.Where(t => t.TeacherAccountId == CurrentUser.AccountId);
+            var records = db.Records.Where(r => timetable.FirstOrDefault(t => t.RecordId == r.RecordId) != null);
+            var subjects = db.Subjects.Where(s => records.FirstOrDefault(r => r.SubjectId == s.SubjectId) != null);
+            var students = db.Students.Where(s => records.FirstOrDefault(r => r.StudentAccountId == s.AccountId) != null);
+            var groups = students    
+                .Select(s => s.StudentGroup)
+                .Distinct()
+                .OrderBy(s => s);
+
+            TeacherAttendanceViewModel model = new TeacherAttendanceViewModel
+            {
+                Subjects = subjects,
+                Groups = groups,
+                Records = null,
+                Students = null,
+
+                CurrentSubject = null
+            };
+            
+            if (gr != null && subj != null)
+            {
+                var newRecords = records.Where(r => r.SubjectId == subj && students.FirstOrDefault(s => s.AccountId == r.StudentAccountId).StudentGroup == gr);
+                var newStudents = students.Where(s => newRecords.FirstOrDefault(r => r.StudentAccountId == s.AccountId) != null);
+                var subject = db.Subjects.FirstOrDefault(s => s.SubjectId == subj);
+
+                model.Records = newRecords;
+                model.Students = newStudents;
+                model.CurrentSubject = subject;
+            }
+            
+            return View("Attendance", model);
+        }
+        [HttpPost]
+        [Route("Attendance")]
+        public IActionResult Attendance(TeacherAttendanceViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return RedirectToAction("Attendance");
+            return RedirectToAction("Attendance", new Dictionary<string, object> {
+                { "gr", model.CurrentGroupId },
+                { "subj", model.CurrentSubjectId}
+            });
+        }
+
+        [HttpGet]
+        [Route("AttendanceStudent")]
+        public IActionResult AttendanceStudent(decimal? stud, decimal? subj)
+        {
+            if (stud != null && subj != null)
+            {
+                var student = db.Students.FirstOrDefault(s => s.AccountId == stud);
+                var subject = db.Subjects.FirstOrDefault(s => s.SubjectId == subj);
+                var teacher = CurrentUser;
+                var journals = db.Journals.Where(j =>
+                    j.StudentAccountId == student.AccountId &&
+                    j.SubjectId == subject.SubjectId &&
+                    j.TeacherAccountId == teacher.AccountId
+                );
+                StudentAttendanceViewModel model = new StudentAttendanceViewModel
+                {
+                    CurrentStudent = student,
+                    CurrentSubject = subject,
+                    Journals = journals
+                };
+                return View("AttendanceStudent", model);
+            }
+            else
+                return RedirectToAction("Attendance");
+        }
     }
 }

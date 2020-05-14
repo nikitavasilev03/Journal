@@ -10,15 +10,19 @@
     </thead>
     <tbody>
         @foreach (var item in Model.Timetable
-       .Where(t => t.TtWeekDay == Model.DayOfWeek)
-       .GroupBy(t => t.TtNumLesson)
-       .Select(t => t.First())
-       .OrderBy(t => t.TtNumLesson)
-       )
+           .Where(t => t.TtWeekDay == Model.DayOfWeek)
+           .GroupBy(t => t.TtNumLesson)
+           .Select(t => t.First())
+           .OrderBy(t => t.TtNumLesson)
+        )
         {
             <tr>
                 <td>@item.TtNumLesson</td>
-                <td>@Model.GetNameSubjectByID(@item.Record.SubjectId)</td>
+                <td>
+                    @Model.GetNameSubjectByID(
+                        Model.Records.FirstOrDefault(r => item.RecordId == r.RecordId).SubjectId
+                    )
+                </td>
             </tr>
         }
     </tbody>

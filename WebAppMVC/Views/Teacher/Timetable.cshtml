@@ -8,8 +8,11 @@
 
 @for (int i = 1; i <= 7; i++)
 {
-    Model.DayOfWeek = 1;
-    await Html.RenderPartialAsync("/Views/Teacher/_PartTimetable.cshtml", Model);
+    if (Model.Timetable.Where(tt => tt.TtWeekDay == i).Count() > 0)
+    {
+        Model.DayOfWeek = i;
+        await Html.RenderPartialAsync("/Views/Teacher/_PartTimetable.cshtml", Model);
+    }
 }
 
 

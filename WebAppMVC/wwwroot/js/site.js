@@ -37,10 +37,10 @@ function changeAttendance(elem, _subjectId, _studentId, _date){
 		date : _date	
 	};
 	if (elem.checked){
-		$.post("/Teacher/AttendanceAdd", data, null, "json");
+		$.post("/Teacher/JournalAdd", data, null, "json");
 	}
 	else{
-		$.post("/Teacher/AttendanceRemove", data, null, "json");
+		$.post("/Teacher/JournalRemove", data, null, "json");
 	}
 }
 

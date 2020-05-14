@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace WebAppMVC.ViewModel
 {
-    public class AttendanceViewModel
+    public class JournalViewModel
     {
         [Required]
         public decimal CurrentSubjectId { get; set; }

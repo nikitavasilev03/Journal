@@ -1,0 +1,31 @@
+﻿@{
+    Layout = "~/Views/Home/Index.cshtml";
+    ViewData["Title"] = "Home Page";
+}
+@model WebAppMVC.ViewModel.StudentAttendanceViewModel
+
+<a asp-action="Attendance" asp-controller="Teacher"
+   asp-route-gr="@Model.CurrentStudent.StudentGroup"
+   asp-route-subj="@Model.CurrentSubject.SubjectId"
+   >Назад</a>
+
+<h1>История посещений</h1>
+<h2>@Model.CurrentStudent.StudentSname @Model.CurrentStudent.StudentName @Model.CurrentStudent.StudentLname</h2>
+
+<table class="table-info">
+    <thead>
+        <tr>
+            <td>Дата посещения</td>
+            <td>День недели</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var journal in Model.Journals.OrderByDescending(j => j.VisitDate))
+        {
+            <tr>
+                <td>@journal.VisitDate?.ToString("dd.MM.yyyy")</td>
+                <td>@Model.GetWeekDayByNumber((int)journal.VisitDate?.DayOfWeek)</td>
+            </tr>
+        }
+    </tbody>
+</table>

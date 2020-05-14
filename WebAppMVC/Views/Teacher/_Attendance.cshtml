@@ -1,0 +1,33 @@
+﻿@model WebAppMVC.ViewModel.TeacherAttendanceViewModel
+
+<table class="table-info">
+    <thead>
+        <tr>
+            <td>ФИО</td>
+            <td>Дата начала</td>
+            <td>Дата окончания</td>
+            <td>Посещено</td>
+            <td>Необходимое количество</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var record in Model.Records)
+        {
+            <tr>
+                @{ 
+                    var student = Model.Students.FirstOrDefault(s => s.AccountId == record.StudentAccountId);
+                }
+                <td>
+                    <a asp-action="AttendanceStudent" asp-controller="Teacher" 
+                       asp-route-stud="@student.AccountId"
+                       asp-route-subj="@Model.CurrentSubject.SubjectId"
+                       >@student.StudentSname @student.StudentName @student.StudentLname</a>
+                </td>
+                <td>@record.DateStart.ToString("dd.MM.yyyy")</td>
+                <td>@record.DateEnd.ToString("dd.MM.yyyy")</td>
+                <td>@record.NumberVisits</td>
+                <td>@Model.CurrentSubject.NeedVisits</td>
+            </tr>
+        }
+    </tbody>
+</table>

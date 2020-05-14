@@ -2,10 +2,10 @@
     Layout = "~/Views/Home/Index.cshtml";
     ViewData["Title"] = "Home Page";
 }
-@model WebAppMVC.ViewModel.TeacherSubjectsViewModel
+@model WebAppMVC.ViewModel.StudentAttendanceViewModel
 
-<h1>Расписание</h1>
-<form asp-action="ShowTimetable" asp-controller="Admin" asp-route-id="@Model.CurrentTeacher.AccountId">
+<h1>Посещаемость</h1>
+<form asp-action="Attendance" asp-controller="Student">
 
     <div class="validation" asp-validation-summary="ModelOnly"></div>
 
@@ -28,5 +28,5 @@
 
 @{
     if (Model.CurrentSubject != null)
-        await Html.RenderPartialAsync("/Views/Admin/_Timetable.cshtml", Model);
+        await Html.RenderPartialAsync("/Views/Student/_Attendance.cshtml", Model);
 }

@@ -1,4 +1,4 @@
-﻿@model WebAppMVC.ViewModel.AttendanceViewModel
+﻿@model WebAppMVC.ViewModel.JournalViewModel
 
 <h2>
     Посещаемость на @Model.Day.ToString("dd.MM.yyyy")
@@ -22,11 +22,11 @@
                         var visit = Model.Journals.FirstOrDefault(j => j.StudentAccountId == student.AccountId);
                         if (visit == null)
                         {
-                            <input type="checkbox" onchange="changeAttendance(this, @student.AccountId, @Model.CurrentSubjectId, '@Model.Day')" />
+                            <input type="checkbox" onchange="changeAttendance(this, @Model.CurrentSubjectId, @student.AccountId, '@Model.Day')" />
                         }
                         else
                         {
-                            <input type="checkbox" checked onchange="changeAttendance(this, @student.AccountId, @Model.CurrentSubjectId, '@Model.Day')" />
+                            <input type="checkbox" checked onchange="changeAttendance(this, @Model.CurrentSubjectId, @student.AccountId, '@Model.Day')" />
                         }
                     }
                 </td>

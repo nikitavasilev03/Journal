@@ -1,0 +1,46 @@
+﻿@model WebAppMVC.ViewModel.StudentAttendanceViewModel
+
+<table class="table-info">
+    <thead>
+        <tr>
+            <td>Дата начала</td>
+            <td>Дата окончания</td>
+            <td>Посещено</td>
+            <td>Необходимое количество</td>
+        </tr>
+    </thead>
+    <tbody>
+        @{ 
+            var record = Model.Records.FirstOrDefault(r => r.SubjectId == Model.CurrentSubject.SubjectId);
+            <tr>
+                <td>@record.DateStart.ToString("dd.MM.yyyy")</td>
+                <td>@record.DateEnd.ToString("dd.MM.yyyy")</td>
+                <td>@record.NumberVisits</td>
+                <td>@Model.CurrentSubject.NeedVisits</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<table class="table-info">
+    <thead>
+        <tr>
+            <td>Преподователь</td>
+            <td>Дата посещения</td>
+            <td>День недели</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var journal in Model.Journals.OrderByDescending(j => j.VisitDate))
+        {
+            <tr>
+                @{ 
+                    var teacher = Model.Teachers.FirstOrDefault(t => t.AccountId == journal.TeacherAccountId);
+                }
+                <td>@teacher.TeacherSname @teacher.TeacherName @teacher.TeacherLname</td>
+                <td>@journal.VisitDate?.ToString("dd.MM.yyyy")</td>
+                <td>@Model.GetWeekDayByNumber((int)journal.VisitDate?.DayOfWeek)</td>
+            </tr>
+        }
+    </tbody>
+</table>

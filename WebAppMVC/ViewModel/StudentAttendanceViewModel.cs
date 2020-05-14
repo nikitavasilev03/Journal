@@ -1,23 +1,25 @@
 ﻿using DomainCore.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace WebAppMVC.ViewModel
 {
-    public class TimetableViewModel
+    public class StudentAttendanceViewModel
     {
-        public IEnumerable<Timetable> Timetable { get; set; }
-        public IEnumerable<Record> Records { get; set; }
-        public IEnumerable<Subject> Subjects { get; set; }
-        public int DayOfWeek { get; set; } = 1;
+        public decimal CurrentSubjectId { get; set; }
+        public Student CurrentStudent { get; set; }
+        public Subject CurrentSubject { get; set; }
 
-        public string GetNameSubjectByID(decimal id)
+        public IQueryable<Subject> Subjects { get; set; }
+        public IQueryable<Record> Records { get; set; }
+        public IQueryable<Journal> Journals { get; set; }
+        public IQueryable<Teacher> Teachers { get; set; }
+
+        public string GetWeekDayByNumber(int number)
         {
-            return Subjects.FirstOrDefault(s => s.SubjectId == id).SubjectName;
-        }
-        public string GetWeekDayByNumber()
-        {
-            switch (DayOfWeek)
+            switch (number)
             {
                 case 1:
                     return "Понедельник";
