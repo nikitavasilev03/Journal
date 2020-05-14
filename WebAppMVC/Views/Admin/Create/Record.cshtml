@@ -1,0 +1,37 @@
+﻿@{
+    Layout = "~/Views/Home/Index.cshtml";
+    ViewData["Title"] = "Home Page";
+}
+@model WebAppMVC.ViewModel.RecordViewModel
+
+<h1>Запись студента на дисциплину</h1>
+<h2>@Model.Student.StudentSname @Model.Student.StudentName @Model.Student.StudentLname @Model.Student.StudentGroup</h2>
+
+<form asp-action="AddRecord" asp-controller="Admin" asp-route-id="@Model.Student.AccountId">
+
+    <div class="validation" asp-validation-summary="ModelOnly"></div>
+
+    <div class="ca_">
+        <label class="ca_lab" asp-for="SubjectId">Дисциплина:</label>
+        <select class="ca_input" asp-for="SubjectId">
+            @foreach (var item in Model.Subjects)
+            {
+                <option value="@item.SubjectId">@item.SubjectName : @item.NeedVisits</option>
+            }
+        </select>
+        <span asp-validation-for="SubjectId"></span>
+    </div>
+
+    <div class="ca_">
+        <label asp-for="DateEnd">Дата окончания:</label>
+        <div id="block-hidden-date">
+            <input type="date" asp-for="DateEnd" asp-format="{0:yyyy-MM-dd}">
+        </div>
+        <span asp-validation-for="DateEnd"></span>
+    </div>
+
+    <div class="ca_">
+        <input class="ca_input" type="submit" value="Записать" />
+    </div>
+
+</form>

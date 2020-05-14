@@ -72,6 +72,8 @@ namespace WebAppMVC.Controllers
         {
             return View("Profil", CurrentUser);
         }
+        
+        [HttpGet]
         [Route("Timetable")]
         public async Task<IActionResult> Timetable()
         {
@@ -81,7 +83,7 @@ namespace WebAppMVC.Controllers
             foreach (var item in tt)
                 item.Record = await db.Records.FirstOrDefaultAsync(r => r.RecordId == item.RecordId);
 
-            TimeTableViewModel model = new TimeTableViewModel
+            TimetableViewModel model = new TimetableViewModel
             {
                 Timetable = tt,
                 Subjects = db.Subjects
@@ -89,6 +91,7 @@ namespace WebAppMVC.Controllers
 
             return View("Timetable", model);
         }
+
         [Route("Attendance")]
         public IActionResult Attendance()
         {
@@ -104,6 +107,7 @@ namespace WebAppMVC.Controllers
 
             return View("Attendance", model);
         }
+
         [HttpPost]
         [Route("ShowJournal")]
         public IActionResult ShowJournal(AttendanceViewModel model)

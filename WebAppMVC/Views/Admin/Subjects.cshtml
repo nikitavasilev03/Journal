@@ -1,0 +1,35 @@
+﻿@{
+    Layout = "~/Views/Home/Index.cshtml";
+    ViewData["Title"] = "Home Page";
+}
+@model IEnumerable<DomainCore.Models.Subject>
+
+<div class="tools">
+    <h1>Дисциплины</h1>
+    <a class="nav__link butt" asp-controller="Admin" asp-action="CreateSubject">Добавить новую дисциплину</a>
+</div>
+
+<table class="table-info">
+    <thead>
+        <tr>
+            <td>ID</td>
+            <td>Название</td>
+            <td>Необходимое количество посещений</td>
+            <td>Управление</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.SubjectId</td>
+                <td>@item.SubjectName</td>
+                <td>@item.NeedVisits</td>
+                <td>
+                    <a class="nav__link" asp-controller="Admin" asp-action="EditSubject" asp-route-id="@item.SubjectId">Изменить</a>/
+                    <a class="nav__link" asp-controller="Admin" asp-action="RemoveSubject" asp-route-id="@item.SubjectId">Удалить</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

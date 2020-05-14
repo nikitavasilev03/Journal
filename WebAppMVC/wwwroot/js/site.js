@@ -31,18 +31,27 @@ function hideBlock(checkboxId, elemForHideId) {
 }
 
 function changeAttendance(elem, _subjectId, _studentId, _date){
-	
 	let data = {
 		subjectId : _subjectId,
 		studentId : _studentId,
 		date : _date	
 	};
-
 	if (elem.checked){
 		$.post("/Teacher/AttendanceAdd", data, null, "json");
 	}
 	else{
 		$.post("/Teacher/AttendanceRemove", data, null, "json");
 	}
+}
 
+function addToTimetable(_techerId, _recordId) {
+	let inputDay = document.getElementById("sel-day-of-week");
+	let inputNumber = document.getElementById("inp-number-lesson");
+	let data = {
+		teacherId: _techerId,
+		recordId: _recordId,
+		dayOfWeek: inputDay.value,
+		numberLesson: inputNumber.value
+	};
+	$.post("/Admin/AddRecordToTimeTable", data, null, "json");
 }
