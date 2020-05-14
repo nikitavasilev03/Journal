@@ -1,0 +1,32 @@
+﻿@{
+    Layout = "~/Views/Home/Index.cshtml";
+    ViewData["Title"] = "Home Page";
+}
+@model WebAppMVC.ViewModel.TeacherSubjectsViewModel
+
+<h1>Расписание</h1>
+<form asp-action="ShowTimetable" asp-controller="Admin" asp-route-id="@Model.CurrentTeacher.AccountId">
+
+    <div class="validation" asp-validation-summary="ModelOnly"></div>
+
+    <div class="ca_">
+        <label class="ca_lab" asp-for="CurrentSubjectId">Выберите предмет:</label>
+        <select class="ca_input" asp-for="CurrentSubjectId">
+            @foreach (var item in Model.Subjects)
+            {
+                <option value="@item.SubjectId">@item.SubjectName : @item.NeedVisits</option>
+            }
+        </select>
+        <span asp-validation-for="CurrentSubjectId"></span>
+    </div>
+
+    <div class="ca_">
+        <input class="ca_input" type="submit" value="Показать" />
+    </div>
+
+</form>
+
+@{
+    if (Model.CurrentSubject != null)
+        await Html.RenderPartialAsync("/Views/Admin/_Timetable.cshtml", Model);
+}

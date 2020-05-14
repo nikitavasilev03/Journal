@@ -1,0 +1,370 @@
+.table-info {
+    border-collapse: collapse;
+    width: 100%;
+    border: 1px solid black;
+}
+
+    .table-info th,
+    td {
+        text-align: left;
+        padding: 8px;
+        border: 1px solid black;
+    }
+
+    .table-info tr:nth-child(even) {
+        background-color: #f2f2f2
+    }
+
+    .table-info thead {
+        background-color: #7A7A7A;
+        color: white;
+    }
+
+
+/* The container <div> - needed to position the dropdown content */
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    margin: 0;
+}
+
+
+/* Dropdown Content (Hidden by Default) */
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    width: 90px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+
+    /* Links inside the dropdown */
+
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+
+        /* Change color of dropdown links on hover */
+
+        .dropdown-content a:hover {
+            background-color: #ddd
+        }
+
+
+/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+
+.show {
+    display: block;
+}
+
+
+/* ////////////////////////////// */
+
+body {
+    position: absolute;
+    display: flex;
+    margin: 0%;
+    height: 100%;
+    width: 100%;
+    font-family: 'Montserrat', sans-serif;
+    /*background-color: darkmagenta;*/
+    background-color: navy;
+}
+
+h1 {
+    margin: 0;
+}
+
+
+/* гранницы элементов */
+
+.header,
+.middle,
+/*.left-sidebar,*/
+.content {
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+
+/* гранницы элементов */
+
+.wrapper,
+.footer {
+    position: relative;
+    margin: 0;
+    box-sizing: border-box;
+    margin-left: auto;
+    margin-right: auto;
+    width: 95%;
+    min-width: 1200px;
+    max-width: 1400px;
+    /*display: table;*/
+}
+
+.wrapper {
+    top: 0;
+    height: 90%;
+}
+
+
+/*.footer {
+        border: 1px solid black;
+        bottom: 0;
+        height: 10%;
+    }*/
+
+.header,
+.middle {
+    position: relative;
+    box-sizing: border-box;
+    display: block;
+    margin-top: 10px;
+    /*background-color: darkviolet;*/
+    background-color: royalblue;
+}
+
+
+/* Middle */
+
+.middle {
+    height: 90%;
+    width: 100%;
+    display: table;
+    padding: 10px;
+    /*margin-top: 3px;*/
+}
+
+    .middle .left-sidebar,
+    .middle .container {
+        /**/
+        box-sizing: border-box;
+        /**/
+        position: relative;
+        height: 100%;
+        display: table-cell;
+    }
+
+    .middle .left-sidebar {
+        width: 190px;
+        top: 0;
+        left: 0;
+    }
+
+        .middle .left-sidebar .nav__link {
+            margin-top: 10px;
+        }
+
+    .middle .container {
+        min-width: 620px;
+        max-width: 1000px;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        overflow-y: auto;
+    }
+
+.content {
+    box-sizing: border-box;
+    position: relative;
+    display: table;
+    height: 100%;
+    width: 90%;
+    margin: 0 auto;
+    padding: 15px;
+    background-color: white;
+}
+
+
+/* Header */
+
+.header {
+    height: 8%;
+    max-height: 90px;
+    width: 100%;
+    /*margin-bottom: 3px;*/
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+    .header .container {
+        width: 100%;
+        margin: 0 auto;
+        position: relative;
+        top: 50%;
+        transform: translate(0, -50%);
+    }
+
+.header__inner {
+    padding-left: 20px;
+    padding-right: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header__logo {
+    font-size: 30px;
+    font-weight: 700;
+}
+
+
+/* ca_lab / ca_input */
+
+.ca_ {
+    margin: 0 0 10px 0;
+}
+
+.ca_lab {
+    margin: 0 70% 0 0;
+}
+
+.ca_lab,
+.ca_input {
+    position: relative;
+    font-size: 24;
+}
+
+.ca_input {
+    border: 2px solid #2c3632;
+    border-radius: 10px;
+    width: 370px;
+}
+
+.validation-summary-errors,
+.field-validation-error {
+    color: red;
+}
+
+    .validation-summary-errors ul li {
+        list-style-type: none;
+    }
+
+    .validation-summary-errors ul {
+        margin-left: 0;
+        /* Отступ слева в браузере IE и Opera */
+        padding-left: 0;
+    }
+
+
+/* ca_lab / ca_input */
+
+
+/* butt / tools */
+
+.tools {
+    padding: 0 20px 0 20px;
+    margin-bottom: 10px;
+    vertical-align: middle;
+}
+
+.content h1,
+.butt {
+    position: relative;
+    display: inline-table;
+}
+
+.butt {
+    background-color: #899593;
+    border-radius: 4px;
+    font-size: 20;
+    padding: 4px;
+    right: 0;
+}
+
+    .butt.nav__link {
+        margin-right: 0;
+    }
+
+
+/* butt / tools */
+
+
+/* Nav */
+
+.nav {
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+.nav__link {
+    display: inline-block;
+    vertical-align: top;
+    margin: 0 15px;
+    position: relative;
+    text-decoration: none;
+    transition: color .1s linear;
+    font-weight: bolder;
+}
+
+    .nav__link:after {
+        content: "";
+        display: block;
+        width: 100%;
+        height: 3px;
+        background-color: black;
+        opacity: 0;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        z-index: 1;
+        transition: opacity .1s linear;
+    }
+
+    .nav__link:hover:after,
+    .nav__link.active:after {
+        opacity: 1;
+    }
+
+    .nav__link.active,
+    .nav__link:hover,
+    .nav__link,
+    .header__logo {
+        color: black;
+    }
+
+
+        /* цвета */
+
+        .nav__link.active,
+        .nav__link:hover,
+        .nav__link,
+        .header__logo {
+            color: #030303;
+        }
+
+.header {
+    background-color: #899593;
+}
+
+.middle {
+    background-color: #899593;
+}
+
+.footer {
+    background-color: #899593;
+}
+
+.content {
+    background-color: #f0f1f4;
+    border: 5px solid #2c3632;
+}
+
+body {
+    background-color: #030303;
+    color: #030303;
+}
+
+
+/* цвета */

@@ -1,0 +1,52 @@
+﻿@{
+    Layout = "~/Views/Home/Index.cshtml";
+    ViewData["Title"] = "Home Page";
+}
+@model WebAppMVC.ViewModel.TeacherSubjectsViewModel
+
+<h1>Записи на @Model.CurrentSubject.SubjectName</h1>
+<div>
+    <div class="ca_">
+        <label class="ca_lab">День недели:</label>
+        <select class="ca_input" id="sel-day-of-week">
+            <option value="1">Понедельник</option>
+            <option value="2">Вторник</option>
+            <option value="3">Среда</option>
+            <option value="4">Четверг</option>
+            <option value="5">Пятница</option>
+            <option value="6">Суббота</option>
+            <option value="7">Воскресение</option>
+        </select>
+    </div>
+    <div class="ca_">
+        <label class="ca_lab">Номер занятия:</label>
+        <input class="ca_input" id="inp-number-lesson" type="number" value="1" min="1" max="6" />
+    </div>
+</div>
+
+<table class="table-info">
+    <thead>
+        <tr>
+            <td>ФИО студента</td>
+            <td>Дата записи</td>
+            <td>Дата окончания</td>
+            <td>Управление</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var record in Model.Records)
+        {
+            <tr>
+                @{
+                    var student = Model.Students.FirstOrDefault(s => s.AccountId == record.StudentAccountId);
+                }
+                <td>@student.StudentSname @student.StudentName @student.StudentLname</td>
+                <td>@record.DateStart.ToString("dd:MM:yyyy")</td>
+                <td>@record.DateEnd.ToString("dd:MM:yyyy")</td>
+                <td>
+                    <a class="nav__link" onclick="addToTimetable(@Model.CurrentTeacher.AccountId, @record.RecordId)">Добавить</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

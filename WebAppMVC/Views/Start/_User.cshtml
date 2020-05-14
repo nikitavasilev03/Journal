@@ -1,0 +1,10 @@
+﻿@model System.String
+
+@*<a class="nav__link" asp-controller="Home" asp-action="Login">@Model</a>*@
+<div onmouseover="hoverInUser()" onmouseout="hoverOutUser()" class="dropdown">
+    <a class="nav__link" asp-action="Index" asp-controller="Home" >@Model</a>
+    <div id="myDropdown" class="dropdown-content">
+        <a asp-controller="Home" asp-action="Index">Кабинет</a>
+        <a asp-controller="Account" asp-action="Logout">Выйти</a>
+    </div>
+</div>

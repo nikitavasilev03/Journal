@@ -1,0 +1,37 @@
+﻿@{
+    Layout = "~/Views/Home/_HomeLayout.cshtml";
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="wrapper">
+    <header class="header">
+        <div class="container">
+            <div class="header__inner">
+                <div class="header__logo">СПОРТКОМПЛЕКС ОЛИМП</div>
+                
+                <nav class="nav">
+                    <a class="nav__link" asp-controller="Start" asp-action="Index">Начальная страница</a>
+                    @{
+                        await Html.RenderPartialAsync("/Views/Home/_User.cshtml", User.Identity.Name);
+                        
+                    }
+                </nav>
+            </div>
+        </div>
+    </header>
+    <div class="middle">
+        @{
+            if (User.IsInRole("Administrator"))
+                await Html.RenderPartialAsync("/Views/Admin/_Sidebar.cshtml");
+            if (User.IsInRole("Student"))
+                await Html.RenderPartialAsync("/Views/Student/_Sidebar.cshtml");
+            if (User.IsInRole("Teacher"))
+                await Html.RenderPartialAsync("/Views/Teacher/_Sidebar.cshtml");
+        }
+        <div class="container">
+            <main class="content">
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,159 @@
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Электронный журнал университета "Дубна"</title>
+        <meta name="keywords" content="" />
+        <meta name="description" content="" />
+        <link rel="stylesheet" href="/css/style.css" />
+    </head>
+
+    <body>
+        <div class="wrapper">
+            <header class="header">
+                <div class="container">
+                    <div class="header__inner">
+                        <div class="header__logo">СПОРТКОМПЛЕКС ОЛИМП</div>
+
+                        <nav class="nav">
+                            <a class="nav__link" href="/">Начальная страница</a>
+
+                            <div
+                                onmouseover="hoverInUser()"
+                                onmouseout="hoverOutUser()"
+                                class="dropdown"
+                            >
+                                <a class="nav__link" href="#">vna.17</a>
+                                <div id="myDropdown" class="dropdown-content">
+                                    <a href="/Account/Logout">Выйти</a>
+                                </div>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+            </header>
+            <div class="middle">
+                <aside class="left-sidebar">
+                    <a class="nav__link" href="/Home/Profil">ПРОФИЛЬ</a>
+                    <a class="nav__link" href="/Home/Accounts">АККАУНТЫ</a>
+                    <a class="nav__link" href="/Home/Students">СТУДЕНТЫ</a>
+                    <a class="nav__link" href="/Home/Teachers">ПРЕПОДАВАТЕЛИ</a>
+                </aside>
+
+                <div class="container">
+                    <main class="content">
+                        <!-- test -->
+
+                        <form
+                            action="/Home/CreateAccount"
+                            method="post"
+                            novalidate="novalidate"
+                        >
+                            <div class="validation validation-summary-errors">
+                                <ul>
+                                    <li>
+                                        Аккаунт с таким логином уже существует
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="ca_">
+                                <label class="ca_lab" for="Login">Логин:</label>
+                                <input
+                                    class="ca_input"
+                                    type="text"
+                                    data-val="true"
+                                    data-val-required="Не указан логин"
+                                    id="Login"
+                                    name="Login"
+                                    value="vna.17"
+                                />
+                                <span
+                                    class="field-validation-valid"
+                                    data-valmsg-for="Login"
+                                    data-valmsg-replace="true"
+                                ></span>
+                            </div>
+                            <div class="ca_">
+                                <label class="ca_lab" for="Password"
+                                    >Пароль:</label
+                                >
+                                <input
+                                    class="ca_input"
+                                    type="text"
+                                    data-val="true"
+                                    data-val-required="Не указан пароль"
+                                    id="Password"
+                                    name="Password"
+                                    value="123"
+                                />
+                                <span
+                                    class="field-validation-valid"
+                                    data-valmsg-for="Password"
+                                    data-valmsg-replace="true"
+                                ></span>
+                            </div>
+                            <div class="ca_">
+                                <label for="DateEnd"
+                                    >Дата окончания учетной записи:</label
+                                >
+                                <div id="input-hidden-date">
+                                    <input
+                                        type="date"
+                                        id="DateEnd"
+                                        name="DateEnd"
+                                        value=""
+                                    />
+                                </div>
+                                <p>
+                                    <input
+                                        id="ca_hide_date"
+                                        type="checkbox"
+                                        onchange="hideBlock('ca_hide_date', 'input-hidden-date')"
+                                        checked
+                                    />Бессрочный
+                                </p>
+                                <span
+                                    class="field-validation-valid"
+                                    data-valmsg-for="DateEnd"
+                                    data-valmsg-replace="true"
+                                ></span>
+                            </div>
+                            <div class="ca_">
+                                <label class="ca_lab" for="account_type"
+                                    >Тип учётной записи</label
+                                >
+                                <select class="ca_input">
+                                    <option value="admin">Администратор</option>
+                                    <option value="teacher"
+                                        >Преподаватель</option
+                                    >
+                                    <option value="student">Студент</option>
+                                </select>
+                            </div>
+                            <div class="ca_">
+                                <input
+                                    class="ca_input"
+                                    type="submit"
+                                    value="Отправить"
+                                />
+                            </div>
+                            <input
+                                name="__RequestVerificationToken"
+                                type="hidden"
+                                value="CfDJ8GlcBuQbb6pCki7onRmXZJhNqLeWfUgARQI2PB_yoxrnaSXkUpFZt3RQFOJI-Dw8XTj3O1lojDR0-_1_gmQGW8bB7lmUyooU0320Kgzx9w0wUg--Th6Z64Br-kXovrCcEewwtRQw6VKAO5BgyCrBSuWTJtH8TJ8SyctKVB5Drx48pY26r7-LNryFxTSJAgKciQ"
+                            />
+                        </form>
+
+                        <!-- test -->
+                    </main>
+                </div>
+            </div>
+        </div>
+        <!--<footer class="footer">
+</footer>-->
+
+        <script src="/lib/jquery/dist/jquery.min.js"></script>
+        <script src="/js/site.js?v=DfP__2ddqxwkf7iQP2r0dSE5cZZrl5j7lEw0JdUBQbI"></script>
+        <script src="/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+        <script src="/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    </body>
+</html>

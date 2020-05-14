@@ -1,0 +1,68 @@
+﻿@{
+    Layout = "~/Views/Home/Index.cshtml";
+    ViewData["Title"] = "Home Page";
+}
+@model WebAppMVC.ViewModel.AccountViewModel
+
+<form asp-action="EditAccount" asp-controller="Admin">
+
+    <div class="validation" asp-validation-summary="ModelOnly"></div>
+
+    <div class="ca_">
+        <label class="ca_lab" asp-for="Login">Логин:</label>
+        <input class="ca_input" type="text" asp-for="Login" />
+        <span asp-validation-for="Login"></span>
+    </div>
+
+    <div class="ca_">
+        <label class="ca_lab" asp-for="Password">Пароль:</label>
+        <div id="block-hidden-password">
+            <input id="hidden-password" class="ca_input" type="text" asp-for="Password" />
+        </div>
+        <p>
+            @Html.CheckBoxFor(
+                m => Model.IsChangePassword,
+                new Dictionary<string, object>()
+                {
+                    { "onchange", "hideBlock('IsChangePassword', 'hidden-password')" }
+                })
+            Не менять
+        </p>
+        <span asp-validation-for="Password"></span>
+    </div>
+
+    <div class="ca_">
+        <label asp-for="DateEnd">Дата окончания учетной записи:</label>
+        <div id="block-hidden-date">
+            <input type="date" asp-for="DateEnd" asp-format="{0:yyyy-MM-dd}">
+        </div>
+        <p>
+            @Html.CheckBoxFor(
+                m => Model.IsTermless,
+                new Dictionary<string, object>() 
+                { 
+                    { "onchange", "hideBlock('IsTermless', 'block-hidden-date')" } 
+                })
+            Бессрочный
+        </p>
+        <span asp-validation-for="DateEnd"></span>
+    </div>
+
+    <div class="ca_">
+        <label class="ca_lab" asp-for="AccountType">Тип учётной записи</label>
+        <select class="ca_input" asp-for="AccountType">
+            <option value="Student">Студент</option>
+            <option value="Teacher">Преподаватель</option>
+            <option value="Administrator">Администратор</option>
+        </select>
+        <span asp-validation-for="AccountType"></span>
+    </div>
+
+    <div class="ca_">
+        <input class="ca_input" type="submit" value="Сохранить" />
+    </div>
+
+    <div hidden>
+        <input class="ca_input" asp-for="Id"/>
+    </div>
+</form>

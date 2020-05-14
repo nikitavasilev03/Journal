@@ -1,0 +1,36 @@
+﻿@{
+    Layout = "~/Views/Home/Index.cshtml";
+    ViewData["Title"] = "Home Page";
+}
+@model WebAppMVC.ViewModel.TimetableRecordViewModel
+
+<form asp-action="EditTimetable" asp-controller="Admin"
+      asp-route-teach="@Model.TeacherId"
+      asp-route-subj="@Model.SubjectId"
+      asp-route-rec="@Model.Id">
+
+    <div class="validation" asp-validation-summary="ModelOnly"></div>
+
+    <div class="ca_">
+        <label class="ca_lab" asp-for="@Model.DayOfWeek">День недели:</label>
+        <select class="ca_input" asp-for="@Model.DayOfWeek">
+            <option value="1">Понедельник</option>
+            <option value="2">Вторник</option>
+            <option value="3">Среда</option>
+            <option value="4">Четверг</option>
+            <option value="5">Пятница</option>
+            <option value="6">Суббота</option>
+            <option value="7">Воскресение</option>
+        </select>
+    </div>
+
+    <div class="ca_">
+        <label class="ca_lab" asp-for="@Model.NumberLesson">Номер занятия:</label>
+        <input class="ca_input" type="number" asp-for="@Model.NumberLesson" min="1" max="6" />
+    </div>
+
+    <div class="ca_">
+        <input class="ca_input" type="submit" value="Изменить" />
+    </div>
+
+</form>

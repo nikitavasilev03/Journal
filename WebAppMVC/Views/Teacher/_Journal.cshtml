@@ -1,0 +1,36 @@
+﻿@model WebAppMVC.ViewModel.JournalViewModel
+
+<h2>
+    Посещаемость на @Model.Day.ToString("dd.MM.yyyy")
+</h2>
+<table class="table-info">
+    <thead>
+        <tr>
+            <td>ФИО</td>
+            <td>Группа</td>
+            <td>Посещение</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var student in Model.Students)
+        {
+            <tr>
+                <td>@student.StudentSname @student.StudentName @student.StudentLname</td>
+                <td>@student.StudentGroup</td>
+                <td>
+                    @{
+                        var visit = Model.Journals.FirstOrDefault(j => j.StudentAccountId == student.AccountId);
+                        if (visit == null)
+                        {
+                            <input type="checkbox" onchange="changeAttendance(this, @Model.CurrentSubjectId, @student.AccountId, '@Model.Day')" />
+                        }
+                        else
+                        {
+                            <input type="checkbox" checked onchange="changeAttendance(this, @Model.CurrentSubjectId, @student.AccountId, '@Model.Day')" />
+                        }
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

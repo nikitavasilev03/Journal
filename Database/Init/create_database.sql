@@ -1,0 +1,3 @@
+--DROP DATABASE JournalDB
+
+CREATE DATABASE JournalDB;
