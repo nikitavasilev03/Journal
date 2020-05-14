@@ -1,0 +1,62 @@
+.left-sidebar,
+.content {
+    box-sizing: border-box;
+    position: relative;
+    height: 100%;
+    display: table-cell;
+    padding: 0 15px 0 15px;
+}
+
+.left-sidebar {
+    width: 150px;
+}
+
+.content {
+    width: 100%;
+    overflow-y: auto;
+}
+
+.conteiner {
+    display: table;
+}
+
+.validation-summary-errors ul li {
+    list-style-type: none;
+}
+
+#logining {
+    position: relative;
+    max-width: 370px;
+}
+
+.validation-summary-errors,
+.field-validation-error {
+    color: red;
+    text-align: center;
+}
+
+
+/* */
+
+.ca_ {
+    position: relative;
+    margin: 5px auto 5px auto;
+}
+
+.ca_,
+.ca_input {
+    width: 300px;
+}
+
+.ca_lab {
+    margin: 0;
+}
+
+.validation-summary-errors ul {
+    margin-left: 0;
+    /* Отступ слева в браузере IE и Opera */
+    padding-left: 0;
+}
+
+
+/* */
