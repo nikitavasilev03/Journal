@@ -4,7 +4,12 @@
 }
 @model WebAppMVC.ViewModel.TimetableViewModel
 
-<h1>Расписание</h1>
+<h1 class="h-title h1-title">Расписание</h1>
+
+@if (Model.Timetable.Count() == 0)
+{
+    <h2 class="h-title h2-title">Нет информации</h2>
+}
 
 @for (int i = 1; i <= 7; i++)
 {
@@ -14,29 +19,3 @@
         await Html.RenderPartialAsync("/Views/Teacher/_PartTimetable.cshtml", Model);
     }
 }
-
-
-@*@{
-        Model.DayOfWeek = 2;
-        await Html.RenderPartialAsync("/Views/Teacher/_PartTimetable.cshtml", Model);
-    }
-    @{
-        Model.DayOfWeek = 3;
-        await Html.RenderPartialAsync("/Views/Teacher/_PartTimetable.cshtml", Model);
-    }
-    @{
-        Model.DayOfWeek = 4;
-        await Html.RenderPartialAsync("/Views/Teacher/_PartTimetable.cshtml", Model);
-    }
-    @{
-        Model.DayOfWeek = 5;
-        await Html.RenderPartialAsync("/Views/Teacher/_PartTimetable.cshtml", Model);
-    }
-    @{
-        Model.DayOfWeek = 6;
-        await Html.RenderPartialAsync("/Views/Teacher/_PartTimetable.cshtml", Model);
-    }
-    @{
-        Model.DayOfWeek = 7;
-        await Html.RenderPartialAsync("/Views/Teacher/_PartTimetable.cshtml", Model);
-    }*@

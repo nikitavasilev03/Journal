@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using DomainCore.Models;
 
@@ -22,7 +23,9 @@ namespace WebAppMVC.ViewModel
         
         public bool IsTermless { get; set; }
         public bool IsChangePassword { get; set; }
-        
+
+        public Dictionary<string, int> Dependences { get; set; } = null;
+
         public AccountViewModel()
         {
 

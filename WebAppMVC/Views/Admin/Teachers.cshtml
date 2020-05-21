@@ -5,8 +5,8 @@
 @model IEnumerable<DomainCore.Models.Teacher>
 
 <div class="tools">
-    <h1>Преподаватели</h1>
-    <a class="nav__link butt" asp-controller="Admin" asp-action="CreateTeacher">Добавить нового преподавателя</a>
+    <h1 class="h-title h1-title">Преподаватели</h1>
+    <a class="nav_link butt" asp-controller="Admin" asp-action="CreateTeacher">Добавить нового преподавателя</a>
 </div>
 
 <table class="table-info">
@@ -30,7 +30,7 @@
                 <td>
                     <a class="nav__link" asp-controller="Admin" asp-action="Timetable" asp-route-teach="@item.AccountId">Занятия</a>/
                     <a class="nav__link" asp-controller="Admin" asp-action="EditTeacher" asp-route-id="@item.AccountId">Изменить</a>/
-                    <a class="nav__link" asp-controller="Admin" asp-action="RemoveTeacher" asp-route-id="@item.AccountId">Удалить</a>
+                    <a class="nav__link" asp-controller="Admin" asp-action="DialogRemoveTeacher" asp-route-id="@item.AccountId">Удалить</a>
                 </td>
             </tr>
         }

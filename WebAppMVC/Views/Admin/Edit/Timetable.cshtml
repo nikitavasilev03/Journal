@@ -4,6 +4,11 @@
 }
 @model WebAppMVC.ViewModel.TimetableRecordViewModel
 
+<a class="nav_link" asp-action="Timetable" asp-controller="Admin"
+   asp-route-teach="@Model.TeacherId"
+   asp-route-subj="@Model.SubjectId">Назад</a>
+<h1 class="h-title h1-title">Изменение записи</h1>
+
 <form asp-action="EditTimetable" asp-controller="Admin"
       asp-route-teach="@Model.TeacherId"
       asp-route-subj="@Model.SubjectId"

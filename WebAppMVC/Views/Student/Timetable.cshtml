@@ -1,0 +1,21 @@
+﻿@{
+    Layout = "~/Views/Home/Index.cshtml";
+    ViewData["Title"] = "Home Page";
+}
+@model WebAppMVC.ViewModel.TimetableViewModel
+
+<h1 class="h-title h1-title">Расписание</h1>
+
+@if (Model.Timetable.Count() == 0)
+{
+    <h2 class="h-title h2-title">Нет информации</h2>
+}
+
+@for (int i = 1; i <= 7; i++)
+{
+    if (Model.Timetable.Where(tt => tt.TtWeekDay == i).Count() > 0)
+    {
+        Model.DayOfWeek = i;
+        await Html.RenderPartialAsync("/Views/Student/_Timetable.cshtml", Model);
+    }
+}

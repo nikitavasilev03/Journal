@@ -12,28 +12,22 @@
             <div class="validation" asp-validation-summary="ModelOnly"></div>
             <div class="container">
                 <label for="uname"><b>Логин</b></label>
-                @*<input type="text" placeholder="Введите логин" name="uname" asp-for="Login" required>*@
                 <input type="text" placeholder="Введите логин" asp-for="Login">
                 <div class="error">
                     <span asp-validation-for="Login" />
                 </div>
 
                 <label for="psw"><b>Пароль</b></label>
-                @*<input type="password" placeholder="Введите пароль" name="psw" asp-for="Password" required>*@
                 <input type="password" placeholder="Введите пароль" asp-for="Password">
                 <div class="error">
                     <span asp-validation-for="Password" />
                 </div>
 
-                <button type="submit">Войти</button>
-                <label>
-                    <input type="checkbox" checked="checked" name="remember"> Запомнить меня
-                </label>
+                <button type="submit">Войти</button>    
             </div>
 
             <div class="container" style="background-color:#f1f1f1">
                 <a type="button" class="cancelbtn" href='@Url.ActionLink("Index", "Start")'>Назад</a>
-                <span class="psw">Забыли <a href="#">пароль?</a></span>
             </div>
         </form>
     </div>

@@ -40,23 +40,24 @@ CREATE SEQUENCE SEQ_Journals
 
 INSERT INTO Accounts 
 VALUES 
-(NEXT VALUE FOR SEQ_Accounts, 'vna.17', '111111', 'Ученик', GETDATE(), NULL),
-(NEXT VALUE FOR SEQ_Accounts, 'asv.17', '111111', 'Ученик', GETDATE(), NULL),
-(NEXT VALUE FOR SEQ_Accounts, 'sinicin', '111111', 'Преподаватель', GETDATE(), NULL);
+(NEXT VALUE FOR SEQ_Accounts, 'admin', 'admin', 'Student', GETDATE(), NULL),
+(NEXT VALUE FOR SEQ_Accounts, 'vna.17', '111', 'Student', GETDATE(), NULL),
+(NEXT VALUE FOR SEQ_Accounts, 'asv.17', '111', 'Student', GETDATE(), NULL),
+(NEXT VALUE FOR SEQ_Accounts, 'sinicin', '111', 'Teacher', GETDATE(), NULL);
 
 INSERT INTO Students 
 VALUES  
-(1, 'Никита', 'Васильев', 'Александрович', 3254),
-(2, 'Степан', 'Аракельянц', 'Владимирович', 3254);
+(1, 'РќРёРєРёС‚Р°', 'Р’Р°СЃРёР»СЊРµРІ', 'РђР»РµРєСЃР°РЅРґСЂРѕРІРёС‡', 3254),
+(2, 'РЎС‚РµРїР°РЅ', 'РђСЂР°РєРµР»СЊСЏРЅС†', 'Р’Р»Р°РґРёРјРёСЂРѕРІРёС‡', 3254);
 
 INSERT INTO Teachers 
 VALUES
-(3, 'Андрей', 'Синицин', 'Александрович');
+(3, 'РђРЅРґСЂРµР№', 'РЎРёРЅРёС†РёРЅ', 'РђР»РµРєСЃР°РЅРґСЂРѕРІРёС‡');
 
 INSERT INTO Subjects 
 VALUES
-(NEXT VALUE FOR SEQ_Subjects, 'Баскетбол', 25),
-(NEXT VALUE FOR SEQ_Subjects, 'Волейбол', 25);
+(NEXT VALUE FOR SEQ_Subjects, 'Р‘Р°СЃРєРµС‚Р±РѕР»', 25),
+(NEXT VALUE FOR SEQ_Subjects, 'Р’РѕР»РµР№Р±РѕР»', 25);
 
 INSERT INTO Records
 VALUES

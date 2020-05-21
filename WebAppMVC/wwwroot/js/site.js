@@ -53,5 +53,24 @@ function addToTimetable(_techerId, _recordId) {
 		dayOfWeek: inputDay.value,
 		numberLesson: inputNumber.value
 	};
-	$.post("/Admin/AddRecordToTimeTable", data, null, "json");
+	let blockResult = document.getElementById("result");
+	let currentBlock = document.getElementById("record-number-" + _recordId);
+	currentBlock.hidden = true;
+	// $.post("/Admin/AddRecordToTimeTable", data, null, "json");
+	$.ajax({
+		type: "POST",
+		url: "/Admin/AddRecordToTimeTable",
+		data: data,
+		success: function(data){
+			let message = "";
+			if (data.result){
+				currentBlock.parentNode.removeChild(currentBlock);
+			} else {
+				message += "Ошибка! " + data.message;
+				blockResult.innerText = message;
+				currentBlock.hidden = false;
+			}
+		},
+		dataType: "json"
+	  });
 }

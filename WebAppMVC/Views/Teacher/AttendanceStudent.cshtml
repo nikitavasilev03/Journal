@@ -4,28 +4,33 @@
 }
 @model WebAppMVC.ViewModel.StudentAttendanceViewModel
 
-<a asp-action="Attendance" asp-controller="Teacher"
+<a class="nav_link" asp-action="Attendance" asp-controller="Teacher"
    asp-route-gr="@Model.CurrentStudent.StudentGroup"
-   asp-route-subj="@Model.CurrentSubject.SubjectId"
-   >Назад</a>
+   asp-route-subj="@Model.CurrentSubject.SubjectId">Назад</a>
 
-<h1>История посещений</h1>
-<h2>@Model.CurrentStudent.StudentSname @Model.CurrentStudent.StudentName @Model.CurrentStudent.StudentLname</h2>
-
-<table class="table-info">
-    <thead>
-        <tr>
-            <td>Дата посещения</td>
-            <td>День недели</td>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var journal in Model.Journals.OrderByDescending(j => j.VisitDate))
-        {
+<h1 class="h-title h1-title">История посещений</h1>
+<h2 class="h2-title">@Model.CurrentStudent.StudentSname @Model.CurrentStudent.StudentName @Model.CurrentStudent.StudentLname</h2>
+@if (Model.Journals.Count() == 0)
+{
+    <h2 class="h2-title">Нет данных</h2>
+}
+else
+{
+    <table class="table-info">
+        <thead>
             <tr>
-                <td>@journal.VisitDate?.ToString("dd.MM.yyyy")</td>
-                <td>@Model.GetWeekDayByNumber((int)journal.VisitDate?.DayOfWeek)</td>
+                <td>Дата посещения</td>
+                <td>День недели</td>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var journal in Model.Journals.OrderByDescending(j => j.VisitDate))
+            {
+                <tr>
+                    <td>@journal.VisitDate?.ToString("dd.MM.yyyy")</td>
+                    <td>@Model.GetWeekDayByNumber((int)journal.VisitDate?.DayOfWeek)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

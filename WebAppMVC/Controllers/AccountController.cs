@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using WebAppMVC.ViewModel;
 using DomainCore.Context;
 using DomainCore.Models;
+using System;
 
 namespace WebAppMVC.Controllers
 {
@@ -31,13 +32,33 @@ namespace WebAppMVC.Controllers
             if (ModelState.IsValid)
             {
                 Account account = await db.Accounts.FirstOrDefaultAsync(u => u.LoginName == model.Login && u.Hpassword == DomainCore.Helpers.Password.Hash(model.Password));
-                if (account != null)
+                if (account == null)
+                    ModelState.AddModelError("", "Некорректные логин и(или) пароль");
+                else
                 {
-                    await Authenticate(account.LoginName, account.AccountType); // аутентификация
+                    if (account.DateEnd != null && account.DateEnd <= DateTime.Now)
+                        ModelState.AddModelError("", "Действие вашей учетной записи закончено");
 
-                    return RedirectToAction("Index", "Home");
+                    switch (account.AccountType)
+                    {
+                        case "Student":
+                            var student = await db.Students.FirstOrDefaultAsync(s => s.AccountId == account.AccountId);
+                            if (student == null)
+                                ModelState.AddModelError("", "Данный аккаунт не привязан");
+                            break;
+                        case "Teacher":
+                            var teacher = await db.Teachers.FirstOrDefaultAsync(s => s.AccountId == account.AccountId);
+                            if (teacher == null)
+                                ModelState.AddModelError("", "Данный аккаунт не привязан");
+                            break;
+                    }
+
+                    if (ModelState.ErrorCount == 0)
+                    {
+                        await Authenticate(account.LoginName, account.AccountType); // аутентификация
+                        return RedirectToAction("Index", "Home");
+                    }
                 }
-                ModelState.AddModelError("", "Некорректные логин и(или) пароль");
             }
             return View(model);
         }

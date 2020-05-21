@@ -1,5 +1,8 @@
 ﻿@model WebAppMVC.ViewModel.TeacherAttendanceViewModel
 
+<h2 class="h2-title">
+    Информация по посещаемости
+</h2>
 <table class="table-info">
     <thead>
         <tr>
@@ -14,14 +17,13 @@
         @foreach (var record in Model.Records)
         {
             <tr>
-                @{ 
+                @{
                     var student = Model.Students.FirstOrDefault(s => s.AccountId == record.StudentAccountId);
                 }
                 <td>
-                    <a asp-action="AttendanceStudent" asp-controller="Teacher" 
+                    <a asp-action="AttendanceStudent" asp-controller="Teacher"
                        asp-route-stud="@student.AccountId"
-                       asp-route-subj="@Model.CurrentSubject.SubjectId"
-                       >@student.StudentSname @student.StudentName @student.StudentLname</a>
+                       asp-route-subj="@Model.CurrentSubject.SubjectId">@student.StudentSname @student.StudentName @student.StudentLname</a>
                 </td>
                 <td>@record.DateStart.ToString("dd.MM.yyyy")</td>
                 <td>@record.DateEnd.ToString("dd.MM.yyyy")</td>

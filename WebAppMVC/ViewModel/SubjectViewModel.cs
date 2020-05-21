@@ -18,6 +18,7 @@ namespace WebAppMVC.ViewModel
         [Required(ErrorMessage = "Не указано количество посещений")]
         public decimal? NeedVisits { get; set; }
 
+        public Dictionary<string, int> Dependences { get; set; } = null;
 
         public SubjectViewModel()
         {

@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using WebAppMVC.Helpers;
 using WebAppMVC.Models;
 using WebAppMVC.ViewModel;
 
@@ -21,7 +20,6 @@ namespace WebAppMVC.Controllers
     {
         private readonly ILogger<AdminController> _logger;
         private JournalDBContext db;
-        private static BufferController buffer = new BufferController();
 
         public AdminController(ILogger<AdminController> logger, JournalDBContext context)
         {
@@ -127,6 +125,11 @@ namespace WebAppMVC.Controllers
                 Account account = await db.Accounts.FirstOrDefaultAsync(u => u.AccountId == model.Id);
                 if (account != null)
                 {
+                    if (account.AccountId == 1 && model.AccountType != "Administrator")
+                    {
+                        ModelState.AddModelError("", "Для данной учетной записи нельзя поменять тип");
+                        return View("Edit/Account", model);
+                    }
                     account.LoginName = model.Login;
                     account.AccountType = model.AccountType;
                     if (!model.IsChangePassword)
@@ -144,15 +147,62 @@ namespace WebAppMVC.Controllers
             return View("Edit/Account", model);
         }
 
+        [Route("DialogRemoveAccount")]
+        [HttpGet]
+        public IActionResult DialogRemoveAccount(int? id)
+        {
+            if (id != null && id != 1)
+            {
+                Dictionary<string, int> dependences = new Dictionary<string, int>()
+                {
+                    {"Студенты", db.Students.Count(s => s.AccountId == id) },
+                    {"Преподаватели", db.Teachers.Count(t => t.AccountId == id) },
+                    {"Записи на занятия", db.Records.Count(r => r.StudentAccountId == id) },
+                    {"Записи в журнале", db.Journals.Count(j => j.StudentAccountId == id) +  db.Journals.Count(j => j.TeacherAccountId == id)},
+                    {"Записи в расписании", db.Timetable.Count(t => t.TeacherAccountId == id) }
+                };
+
+                AccountViewModel model = new AccountViewModel()
+                {
+                    Id = id.Value,
+                    Login = db.Accounts.FirstOrDefault(s => s.AccountId == id).LoginName,
+                    Dependences = dependences.Where(d => d.Value != 0).ToDictionary(k => k.Key, v => v.Value)
+                };
+
+                return View("Remove/Account", model);
+            }
+            return RedirectToAction("Accounts");
+        }
+
         [Route("RemoveAccount")]
         [HttpGet]
         public async Task<IActionResult> RemoveAccount(int? id)
         {
-            if (id != null)
+            if (id != null && id != 1)
             {
                 Account account = await db.Accounts.FirstOrDefaultAsync(u => u.AccountId == id);
                 if (account == null)
                     return RedirectToAction("Accounts");
+                
+                
+                if (account.AccountType == Roles.Student)
+                {
+                    //Чистим зависимости в таблице журнала
+                    foreach (var item in db.Journals.Where(j => j.StudentAccountId == account.AccountId))
+                        db.Journals.Remove(item);
+                }
+                else if (account.AccountType == Roles.Teacher)
+                {
+                    //Чистим зависимости в таблице расписания
+                    foreach (var item in db.Timetable.Where(t => t.TeacherAccountId == account.AccountId))
+                        db.Timetable.Remove(item);
+                    //Чистим зависимости в таблице журнала
+                    foreach (var item in db.Journals.Where(j => j.TeacherAccountId == account.AccountId))
+                        db.Journals.Remove(item);
+                }
+                    
+                await db.SaveChangesAsync();
+                
                 db.Accounts.Remove(account);
                 await db.SaveChangesAsync();
             }
@@ -236,6 +286,31 @@ namespace WebAppMVC.Controllers
             return View("Edit/Student", model);
         }
 
+        [Route("DialogRemoveStudent")]
+        [HttpGet]
+        public IActionResult DialogRemoveStudent(int? id)
+        {
+            if (id != null)
+            {
+                Dictionary<string, int> dependences = new Dictionary<string, int>()
+                {
+                    {"Записи на занятия", db.Records.Count(r => r.StudentAccountId == id) },
+                    {"Записи в журнале", db.Journals.Count(j => j.StudentAccountId == id) }
+                };
+                var student = db.Students.FirstOrDefault(s => s.AccountId == id);
+                StudentViewModel model = new StudentViewModel()
+                {
+                    Id = id.Value,
+                    FirstName = student.StudentName,
+                    SecondName = student.StudentSname,
+                    Dependences = dependences.Where(d => d.Value != 0).ToDictionary(k => k.Key, v => v.Value)
+                };
+
+                return View("Remove/Student", model);
+            }
+            return RedirectToAction("Students");
+        }
+
         [Route("RemoveStudent")]
         [HttpGet]
         public async Task<IActionResult> RemoveStudent(int? id)
@@ -245,6 +320,12 @@ namespace WebAppMVC.Controllers
                 Student student = await db.Students.FirstOrDefaultAsync(s => s.AccountId == id);
                 if (student == null)
                     return RedirectToAction("Students");
+                
+                //Чистим зависимости в таблице журнала
+                foreach (var item in db.Journals.Where(j => j.StudentAccountId == student.AccountId))
+                    db.Journals.Remove(item);
+                await db.SaveChangesAsync();
+
                 db.Students.Remove(student);
                 await db.SaveChangesAsync();
             }
@@ -327,6 +408,32 @@ namespace WebAppMVC.Controllers
             return View("Edit/Teacher", model);
         }
 
+        [Route("DialogRemoveTeacher")]
+        [HttpGet]
+        public IActionResult DialogRemoveTeacher(int? id)
+        {
+            if (id != null)
+            {
+                Dictionary<string, int> dependences = new Dictionary<string, int>()
+                {
+                    {"Записи в журнале", db.Journals.Count(j => j.TeacherAccountId == id)},
+                    {"Записи в расписании", db.Timetable.Count(t => t.TeacherAccountId == id) }
+                };
+
+                var teacher = db.Teachers.FirstOrDefault(t => t.AccountId == id);
+                TeacherViewModel model = new TeacherViewModel
+                {
+                    Id = id.Value,
+                    FirstName = teacher.TeacherName,
+                    SecondName = teacher.TeacherSname,
+                    Dependences = dependences.Where(d => d.Value != 0).ToDictionary(k => k.Key, v => v.Value)
+                };
+
+                return View("Remove/Teacher", model);
+            }
+            return RedirectToAction("Teachers");
+        }
+
         [Route("RemoveTeacher")]
         [HttpGet]
         public async Task<IActionResult> RemoveTeacher(int? id)
@@ -336,6 +443,15 @@ namespace WebAppMVC.Controllers
                 Teacher teacher = await db.Teachers.FirstOrDefaultAsync(s => s.AccountId == id);
                 if (teacher == null)
                     return RedirectToAction("Teachers");
+
+                //Чистим зависимости в таблице расписания
+                foreach (var item in db.Timetable.Where(t => t.TeacherAccountId == teacher.AccountId))
+                    db.Timetable.Remove(item);
+                //Чистим зависимости в таблице журнала
+                foreach (var item in db.Journals.Where(j => j.TeacherAccountId == teacher.AccountId))
+                    db.Journals.Remove(item);
+                await db.SaveChangesAsync();
+
                 db.Teachers.Remove(teacher);
                 await db.SaveChangesAsync();
             }
@@ -360,18 +476,22 @@ namespace WebAppMVC.Controllers
         {
             if (ModelState.IsValid)
             {
-
-                Subject subject = new Subject
+                //Есть ли уже такой предмет
+                var subj = await db.Subjects.FirstOrDefaultAsync(s => s.SubjectName == model.Name && s.NeedVisits == model.NeedVisits);
+                if (subj == null)
                 {
-                    SubjectId = db.NextSequence("SEQ_Subjects"),
-                    SubjectName = model.Name,
-                    NeedVisits = model.NeedVisits
-                };
-                db.Subjects.Add(subject);
-                await db.SaveChangesAsync();
-
-
-                return RedirectToAction("Subjects");
+                    Subject subject = new Subject
+                    {
+                        SubjectId = db.NextSequence("SEQ_Subjects"),
+                        SubjectName = model.Name,
+                        NeedVisits = model.NeedVisits
+                    };
+                    db.Subjects.Add(subject);
+                    await db.SaveChangesAsync();
+                    return RedirectToAction("Subjects");
+                }
+                else
+                    ModelState.AddModelError("", "Такая дисциплина уже есть");
             }
             return View("Create/Subject", model);
         }
@@ -389,6 +509,7 @@ namespace WebAppMVC.Controllers
             }
             return RedirectToAction("Subjects");
         }
+
         [Route("EditSubject")]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -396,18 +517,49 @@ namespace WebAppMVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                Subject subject = await db.Subjects.FirstOrDefaultAsync(s => s.SubjectId == model.Id);
-                if (subject != null)
+                var subj = await db.Subjects.FirstOrDefaultAsync(s => s.SubjectId != model.Id && s.SubjectName == model.Name && s.NeedVisits == model.NeedVisits);
+                if (subj == null)
                 {
-                    subject.SubjectName = model.Name;
-                    subject.NeedVisits = model.NeedVisits;
-                    db.Subjects.Update(subject);
-                    await db.SaveChangesAsync();
-                    return RedirectToAction("Subjects");
+                    Subject subject = await db.Subjects.FirstOrDefaultAsync(s => s.SubjectId == model.Id);
+                    if (subject != null)
+                    {
+                        subject.SubjectName = model.Name;
+                        subject.NeedVisits = model.NeedVisits;
+                        db.Subjects.Update(subject);
+                        await db.SaveChangesAsync();
+                        return RedirectToAction("Subjects");
+                    }
+                    ModelState.AddModelError("", "Предмета не существует");
                 }
-                ModelState.AddModelError("", "Предмета не существует");
+                else
+                    ModelState.AddModelError("", "Такая дисциплина уже есть");
             }
             return View("Edit/Subject", model);
+        }
+
+        [Route("DialogRemoveSubject")]
+        [HttpGet]
+        public IActionResult DialogRemoveSubject(int? id)
+        {
+            if (id != null)
+            {
+                Dictionary<string, int> dependences = new Dictionary<string, int>()
+                {
+                    {"Записи на дисциплину", db.Records.Count(t => t.SubjectId == id) },
+                    {"Записи в журнале", db.Journals.Count(j => j.SubjectId == id) }
+                };
+
+                var subject = db.Subjects.FirstOrDefault(t => t.SubjectId == id);
+                SubjectViewModel model = new SubjectViewModel
+                {
+                    Id = id.Value,
+                    Name = subject.SubjectName,
+                    Dependences = dependences.Where(d => d.Value != 0).ToDictionary(k => k.Key, v => v.Value)
+                };
+
+                return View("Remove/Subject", model);
+            }
+            return RedirectToAction("Subjects");
         }
 
         [Route("RemoveSubject")]
@@ -429,15 +581,15 @@ namespace WebAppMVC.Controllers
 
         [Route("StudentSubjects")]
         [HttpGet]
-        public async Task<IActionResult> StudentSubjects(int? id)
+        public async Task<IActionResult> StudentSubjects(int? stud)
         {
-            if (id != null)
+            if (stud != null)
             {
-                Student student = await db.Students.FirstOrDefaultAsync(u => u.AccountId == id);
+                Student student = await db.Students.FirstOrDefaultAsync(u => u.AccountId == stud);
                 if (student == null)
                     return RedirectToAction("Studetns");
 
-                var records = db.Records.Where(r => r.StudentAccountId == id);
+                var records = db.Records.Where(r => r.StudentAccountId == stud);
                 var subjects = db.Subjects.Where(s => records.FirstOrDefault(r => r.SubjectId == s.SubjectId) != null);
 
                 return View("StudentSubjects", new StudentsSubjectsViewModel
@@ -461,7 +613,7 @@ namespace WebAppMVC.Controllers
                 return RedirectToAction("StudentSubjects",
                     new Dictionary<string, string>
                     {
-                        {"id", id?.ToString() }
+                        {"stud", id?.ToString() }
                     });
             return View("Create/Record", new RecordViewModel
             {
@@ -480,7 +632,7 @@ namespace WebAppMVC.Controllers
                     return RedirectToAction("StudentSubjects",
                     new Dictionary<string, string>
                     {
-                        {"id", id?.ToString() }
+                        {"stud", id?.ToString() }
                     });
 
                 var record = new Record
@@ -498,7 +650,7 @@ namespace WebAppMVC.Controllers
                 return RedirectToAction("StudentSubjects",
                     new Dictionary<string, string>
                     {
-                        {"id", id?.ToString() }
+                        {"stud", id?.ToString() }
                     });
             }
             return View("Create/Record", model);
@@ -520,7 +672,7 @@ namespace WebAppMVC.Controllers
                 return RedirectToAction("StudentSubjects",
                     new Dictionary<string, string>
                     {
-                        {"id", id?.ToString() }
+                        {"stud", id?.ToString() }
                     });
 
             RecordViewModel model = new RecordViewModel(record)
@@ -549,7 +701,7 @@ namespace WebAppMVC.Controllers
                     return RedirectToAction("StudentSubjects",
                     new Dictionary<string, string>
                     {
-                        {"id", record.StudentAccountId.ToString() }
+                        {"stud", record.StudentAccountId.ToString() }
                     });
 
                 //record.SubjectId = model.SubjectId;
@@ -561,10 +713,41 @@ namespace WebAppMVC.Controllers
                 return RedirectToAction("StudentSubjects",
                     new Dictionary<string, string>
                     {
-                        {"id", record.StudentAccountId.ToString() }
+                        {"stud", record.StudentAccountId.ToString() }
                     });
             }
             return View("Create/Record", model);
+        }
+
+        [Route("DialogRemoveRecord")]
+        [HttpGet]
+        public IActionResult DialogRemoveRecord(int? id)
+        {
+            if (id != null)
+            {
+                var record = db.Records.FirstOrDefault(t => t.RecordId == id);
+                if (record == null)
+                    return RedirectToAction("StudentSubjects",
+                    new Dictionary<string, string>
+                    {
+                        {"stud", record.StudentAccountId.ToString() }
+                    });
+
+                Dictionary<string, int> dependences = new Dictionary<string, int>()
+                {
+                    {"Записи в расписании", db.Timetable.Count(t => t.RecordId == id) },
+                    {"Записи в журнале", db.Journals.Count(j => j.SubjectId == record.SubjectId && j.StudentAccountId == record.StudentAccountId) }
+                };
+
+                RecordViewModel model = new RecordViewModel
+                {
+                    Id = id.Value,
+                    Dependences = dependences.Where(d => d.Value != 0).ToDictionary(k => k.Key, v => v.Value)
+                };
+
+                return View("Remove/Record", model);
+            }
+            return RedirectToAction("Students");
         }
 
         [Route("RemoveRecord")]
@@ -578,8 +761,12 @@ namespace WebAppMVC.Controllers
                     return RedirectToAction("StudentSubjects",
                     new Dictionary<string, string>
                     {
-                        {"id", record.StudentAccountId.ToString() }
+                        {"stud", record.StudentAccountId.ToString() }
                     });
+
+                foreach (var item in db.Journals.Where(j => j.SubjectId == record.SubjectId && j.StudentAccountId == record.StudentAccountId))
+                    db.Journals.Remove(item);
+                await db.SaveChangesAsync();
 
                 db.Records.Remove(record);
                 await db.SaveChangesAsync();
@@ -587,15 +774,15 @@ namespace WebAppMVC.Controllers
                 return RedirectToAction("StudentSubjects",
                     new Dictionary<string, string>
                     {
-                        {"id", record.StudentAccountId.ToString() }
+                        {"stud", record.StudentAccountId.ToString() }
                     });
             }
-            return RedirectToAction("StudentSubjects", "Students");
+            return RedirectToAction("Students");
         }
 
         #endregion
 
-
+        #region TimetableManage
         [Route("Timetable")]
         [HttpGet]
         public async Task<IActionResult> Timetable(int? teach, int? subj)
@@ -628,7 +815,7 @@ namespace WebAppMVC.Controllers
                     timetable = db.Timetable.Where(tt => tt.TeacherAccountId == teacher.AccountId);
                     records = db.Records.Where(r => timetable.FirstOrDefault(tt => tt.RecordId == r.RecordId) != null);
                 }
-                
+
                 var model = new TeacherSubjectsViewModel
                 {
                     CurrentTeacher = teacher,
@@ -642,37 +829,6 @@ namespace WebAppMVC.Controllers
             }
             return RedirectToAction("Teachers");
         }
-
-        //[Route("Timetable")]
-        //[HttpGet]
-        //public IActionResult Timetable()
-        //{
-        //    if (teach != null && subj != null)
-        //    {
-        //        Teacher teacher = db.Teachers.FirstOrDefault(u => u.AccountId == teach);
-        //        Subject subject = db.Subjects.FirstOrDefault(s => s.SubjectId == subj);
-        //        if (teacher == null || subject == null)
-        //            return RedirectToAction("Teachers");
-
-        //        var tempRecords = db.Records.Where(r => r.SubjectId == subject.SubjectId);
-        //        var timetable = db.Timetable.Where(tt => tempRecords.FirstOrDefault(r => r.RecordId == tt.RecordId) != null && tt.TeacherAccountId == teacher.AccountId);
-        //        var records = tempRecords.Where(r => timetable.FirstOrDefault(tt => tt.RecordId == r.RecordId) != null);
-        //        var students = db.Students.Where(s => records.FirstOrDefault(r => r.StudentAccountId == s.AccountId) != null);
-
-        //        var model = new TeacherSubjectsViewModel
-        //        {
-        //            CurrentTeacher = teacher,
-        //            CurrentSubject = subject,
-        //            Records = records,
-        //            Timetable = timetable,
-        //            Students = students,
-        //            Subjects = db.Subjects
-        //        };
-
-        //        return View("Timetable", model);
-        //    }
-        //    return RedirectToAction("Teachers");
-        //}
 
         [Route("ShowTimetable")]
         [HttpPost]
@@ -709,26 +865,47 @@ namespace WebAppMVC.Controllers
         {
             Teacher teacher = db.Teachers.FirstOrDefault(u => u.AccountId == teach);
             Subject subject = db.Subjects.FirstOrDefault(s => s.SubjectId == subj);
-            var records = db.Records.Where(r => r.SubjectId == subject.SubjectId);
-            var students = db.Students.Where(s => records.FirstOrDefault(r => r.StudentAccountId == s.AccountId) != null);
 
             var model = new TeacherSubjectsViewModel
             {
                 CurrentTeacher = teacher,
                 CurrentSubject = subject,
                 Timetable = null,
-                Students = students,
-                Records = records,
+                Students = null,
+                Records = null,
                 Subjects = null
             };
 
             return View("Create/Timetable", model);
         }
 
+        [Route("AddIntoTimeTable")]
+        [HttpPost]
+        public IActionResult AddIntoTimeTable(TeacherSubjectsViewModel model, int teach, int subj)
+        {
+            Teacher teacher = db.Teachers.FirstOrDefault(u => u.AccountId == teach);
+            Subject subject = db.Subjects.FirstOrDefault(s => s.SubjectId == subj);
+            
+            var timetable = db.Timetable.Where(t => t.TtWeekDay == model.DayOfWeek && t.TtNumLesson == model.NumberLeson);
+            var records = db.Records.Where(r => r.SubjectId == subject.SubjectId && timetable.FirstOrDefault(t => t.RecordId == r.RecordId) == null);
+            var students = db.Students.Where(s => records.FirstOrDefault(r => r.StudentAccountId == s.AccountId) != null);
+
+
+            model.CurrentTeacher = teacher;
+            model.CurrentSubject = subject;
+            model.Timetable = null;
+            model.Students = students;
+            model.Records = records;
+            model.Subjects = null;
+
+            return View("Create/Timetable", model);
+        }
+
         [HttpPost]
         [Route("AddRecordToTimeTable")]
-        public void AddRecordToTimeTable(int teacherId, int recordId, int dayOfWeek, int numberLesson)
+        public async Task<JsonResult> AddRecordToTimeTable(int teacherId, int recordId, int dayOfWeek, int numberLesson)
         {
+            AddTimetableResult result = new AddTimetableResult();
             Timetable ttRecord = new Timetable
             {
                 TeacherAccountId = teacherId,
@@ -736,15 +913,42 @@ namespace WebAppMVC.Controllers
                 TtWeekDay = dayOfWeek,
                 TtNumLesson = numberLesson
             };
-            if (db.Timetable.FirstOrDefault(tt => tt.TeacherAccountId == ttRecord.TeacherAccountId
-                    && tt.RecordId == ttRecord.RecordId
-                    && tt.TtWeekDay == ttRecord.TtWeekDay
-                    && tt.TtNumLesson == ttRecord.TtNumLesson) == null)
+            //Получаем текущую запись
+            var record = await db.Records.FirstOrDefaultAsync(r => r.RecordId == ttRecord.RecordId);
+            //Получаем все записи данного студента
+            var records = db.Records.Where(r => r.StudentAccountId == record.StudentAccountId); 
+            //Получем любую запись данного студента на текущую пару в этот день
+            var ttStudent = await db.Timetable.FirstOrDefaultAsync(tt =>
+                            records.FirstOrDefault(r => r.RecordId == tt.RecordId) != null
+                            && tt.TtWeekDay == ttRecord.TtWeekDay
+                            && tt.TtNumLesson == ttRecord.TtNumLesson);
+            var countRecordOnDay = db.Timetable.Count(tt =>
+                            tt.RecordId == recordId
+                            && tt.TtWeekDay == ttRecord.TtWeekDay);
+
+            //!!!Сдесь должен быть код который не позволяет записать перподователя на разные предметы в одно время!!! 
+            //Получем любую запись данного преподавателя на текущую пару в этот день
+            //var ttTeacher = 
+            
+            Timetable ttTeacher = null;
+            if (ttStudent == null && ttTeacher == null && countRecordOnDay == 0)
             {
                 ttRecord.TtId = db.NextSequence("SEQ_Timetable");
                 db.Timetable.Add(ttRecord);
-                db.SaveChanges();
+                await db.SaveChangesAsync();
+
+                result.Result = true;
+                return Json(result);
             }
+            else if (ttStudent != null)
+                result.Message = "Текущий студент уже записан в это время на другое занятие";
+            else if (countRecordOnDay != 0)
+                result.Message = "Текущий студент уже записан на это занятие в этот день";
+            else if (ttTeacher != null)
+                result.Message = "Текущий преподователь уже записан в это время на другое занятие";
+            
+            result.Result = false;
+            return Json(result);
         }
 
         [HttpGet]
@@ -794,6 +998,8 @@ namespace WebAppMVC.Controllers
                         { "subj", subj.ToString() }
                     });
         }
+
+        #endregion
 
         [AcceptVerbs("GET", "POST")]
         public async Task<IActionResult> VerifyId(decimal id)

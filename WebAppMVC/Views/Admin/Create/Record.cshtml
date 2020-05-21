@@ -4,8 +4,11 @@
 }
 @model WebAppMVC.ViewModel.RecordViewModel
 
-<h1>Запись студента на дисциплину</h1>
-<h2>@Model.Student.StudentSname @Model.Student.StudentName @Model.Student.StudentLname @Model.Student.StudentGroup</h2>
+<a class="nav_link" asp-action="StudentSubjects" asp-controller="Admin"
+   asp-route-stud="@Model.Student.AccountId"
+   >Назад</a>
+<h1 class="h-title h1-title">Запись студента на дисциплину</h1>
+<h2 class="h-title h2-title">@Model.Student.StudentSname @Model.Student.StudentName @Model.Student.StudentLname @Model.Student.StudentGroup</h2>
 
 <form asp-action="AddRecord" asp-controller="Admin" asp-route-id="@Model.Student.AccountId">
 

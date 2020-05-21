@@ -5,8 +5,8 @@
 @model WebAppMVC.ViewModel.StudentsSubjectsViewModel;
 
 <div class="tools">
-    <h1>Студенты</h1>
-    <a class="nav__link butt" asp-controller="Admin" asp-action="CreateStudent">Добавить нового студента</a>
+    <h1 class="h-title h1-title">Студенты</h1>
+    <a class="nav_link butt" asp-controller="Admin" asp-action="CreateStudent">Добавить нового студента</a>
 </div>
 
 <table class="table-info">
@@ -39,9 +39,9 @@
                     }
                 </td>
                 <td>
-                    <a class="nav__link" asp-controller="Admin" asp-action="StudentSubjects" asp-route-id="@item.AccountId">Дисциплины</a>/
+                    <a class="nav__link" asp-controller="Admin" asp-action="StudentSubjects" asp-route-stud="@item.AccountId">Дисциплины</a>/
                     <a class="nav__link" asp-controller="Admin" asp-action="EditStudent" asp-route-id="@item.AccountId">Изменить</a>/
-                    <a class="nav__link" asp-controller="Admin" asp-action="RemoveStudent" asp-route-id="@item.AccountId">Удалить</a>
+                    <a class="nav__link" asp-controller="Admin" asp-action="DialogRemoveStudent" asp-route-id="@item.AccountId">Удалить</a>
                 </td>
             </tr>
         }

@@ -40,14 +40,14 @@ namespace WebAppMVC.Controllers
         [Route("Index")]
         public IActionResult Index()
         {
-            return View("Profil");
+            return View("Profil", CurrentUser);
         }
         
         [HttpGet]
         [Route("Profil")]
         public IActionResult Profil()
         {
-            return View("Profil");
+            return View("Profil", CurrentUser);
         }
 
         [HttpGet]
@@ -91,6 +91,24 @@ namespace WebAppMVC.Controllers
             model.Teachers = teachers;
 
             return View("Attendance", model);
+        }
+
+        [HttpGet]
+        [Route("Timetable")]
+        public IActionResult Timetable()
+        {
+            var records = db.Records.Where(r => r.StudentAccountId == CurrentUser.AccountId);
+            var subjects = db.Subjects.Where(s => records.FirstOrDefault(r => r.SubjectId == s.SubjectId) != null);
+            var timetable = db.Timetable.Where(t => records.FirstOrDefault(r => r.RecordId == t.RecordId) != null);
+            var teachers = db.Teachers.Where(t => timetable.FirstOrDefault(tt => tt.TeacherAccountId == t.AccountId) != null);
+            TimetableViewModel model = new TimetableViewModel
+            {
+                Records = records,
+                Subjects = subjects,
+                Timetable = timetable,
+                Teachers = teachers
+            };
+            return View("Timetable", model);
         }
 
         #endregion

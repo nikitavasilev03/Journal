@@ -1,0 +1,21 @@
+﻿@model System.Collections.Generic.Dictionary<string, int>
+
+<h2 class="h2-title">Зависимости</h2>
+<table class="table-info">
+    <thead>
+        <tr>
+            @foreach (var key in Model.Keys)
+            {
+                <td>@key</td>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            @foreach (var value in Model.Values)
+            {
+                <td>@value</td>
+            }
+        </tr>
+    </tbody>
+</table>

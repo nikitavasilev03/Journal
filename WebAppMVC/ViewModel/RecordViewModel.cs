@@ -16,6 +16,7 @@ namespace WebAppMVC.ViewModel
 
         public Student Student { get; set; }
         public IEnumerable<Subject> Subjects { get; set; }
+        public Dictionary<string, int> Dependences { get; set; } = null;
 
         public RecordViewModel()
         {

@@ -1,0 +1,93 @@
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <title>СПОРТКОМПЛЕКС ОЛИМП</title>
+</head>
+
+<body>
+    <div id="root">
+        <div>
+            <header>
+                <nav class="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3 navbar navbar-light">
+                    <div class="container">
+                        <a class="navbar-brand" href="#">СПОРТКОМПЛЕКС ОЛИМП</a>
+                        <div class="d-sm-inline-flex flex-sm-row-reverse collapse navbar-collapse">
+                            <ul class="navbar-nav flex-grow">
+                                <li class="nav-item"><a class="text-dark nav-link" href="#">НАЧАЛЬНАЯ СТРАНИЦА</a></li>
+                                <li class="nav-item"><a class="text-dark nav-link" href="#">ВОЙТИ</a></li>
+                                <!--<div id="myDropdown" class="dropdown-content">
+                                    <a href="/Account/Logout">Выйти</a> -->
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </header>
+            <div class="container">
+                <aside class="left-sidebar">
+                    <a class="nav__link" href="/Home/Profil">ПРОФИЛЬ</a>
+                    <a class="nav__link" href="/Home/Accounts">АККАУНТЫ</a>
+                    <a class="nav__link" href="/Home/Students">СТУДЕНТЫ</a>
+                    <a class="nav__link" href="/Home/Teachers">ПРЕПОДАВАТЕЛИ</a>
+                </aside>
+                <main class="content">
+                    <!-- test -->
+                    <form action="/Home/CreateAccount" method="post">
+
+                        <div class="validation validation-summary-errors">
+                            <ul>
+                                <li>Аккаунт с таким логином уже существует</li>
+                            </ul>
+                        </div>
+                        <div id="loginning">
+                            <div class="ca_">
+                                <label class="ca_lab" for="Login">Логин : </label>
+                                <span class="field-validation-error" data-valmsg-for="Login" data-valmsg-replace="true"><span id="Login-error" class="">Не указан логин</span></span>
+                                <input class="ca_input" type="text" data-val="true" data-val-required="Не указан логин" id="Login" name="Login" value="">
+
+                            </div>
+                            <div class="ca_">
+                                <label class="ca_lab" for="Password">Password : </label>
+                                <span class="field-validation-error" data-valmsg-for="Password" data-valmsg-replace="true"><span id="Password-error" class="">Не указан пароль</span></span>
+                                <input class="ca_input" type="text" data-val="true" data-val-required="Не указан пароль" id="Password" name="Password" value="">
+
+                            </div>
+                            <div class="ca_">
+                                <label class="ca_lab" for="DateEnd">Дата окончания учетной записи : </label>
+                                <span class="field-validation-valid" data-valmsg-for="DateEnd" data-valmsg-replace="true"></span>
+                                <input class="ca_input" type="date" data-val="true" data-val-required="The DateEnd field is required." id="DateEnd" name="DateEnd" value="">
+                                <span class="field-validation-valid" data-valmsg-for="DateEnd" data-valmsg-replace="true"></span>
+                            </div>
+                            <div class="ca_">
+                                <label class="ca_lab" for="account_type">Тип учётной записи : </label>
+                                <select class="ca_input">
+                                <option value="admin">АДМИНИСТРАТОР</option>
+                                <option value="teacher">ПРЕПОДАВАТЕЛЬ</option>
+                                <option value="student">СТУДЕНТ</option>
+                            </select>
+                            </div>
+                            <div class="ca_">
+                                <input class="ca_input" type="submit" value="Отправить">
+                            </div>
+
+                            <input name="__RequestVerificationToken" type="hidden" value="CfDJ8GlcBuQbb6pCki7onRmXZJiEDtMSPbWKWI-9VgaB1wKpj2HNDUw3I1sK1T7Bmuntia033wqHc1UhUJjWwZGbPYdBLBuCnnMC7XYso6iof6q5SBMbBg2UcjE-xQn7-3uKY08gJtaNFjDN4Dp-W17Oa1dVHojgtVTjh6nk4qCDLvNBHqijjXJIqBkgvCo4xQ7L3A">
+                        </div>
+                    </form>
+                    <!-- test -->
+                </main>
+            </div>
+        </div>
+    </div>
+    <!--<script src="/static/js/bundle.js"></script>
+    <script src="/static/js/0.chunk.js"></script>
+    <script src="/static/js/main.chunk.js"></script>-->
+
+    <link rel="stylesheet" href="./css/new_style_1.css">
+    <link rel="stylesheet" href="./css/new_style_2.css">
+    <link rel="stylesheet" href="./css/new_style_3.css">
+    <link rel="stylesheet" href="./css/new_style_4.css">
+</body>
+
+</html>

@@ -1,13 +1,12 @@
 ﻿using DomainCore.Models;
-using System;
-using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace WebAppMVC.ViewModel
 {
     public class StudentAttendanceViewModel
     {
+        [Required(ErrorMessage = "Не указан предмет")]
         public decimal CurrentSubjectId { get; set; }
         public Student CurrentStudent { get; set; }
         public Subject CurrentSubject { get; set; }
