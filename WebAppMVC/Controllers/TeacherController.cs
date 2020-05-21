@@ -81,7 +81,7 @@ namespace WebAppMVC.Controllers
             var records = db.Records.Where(r => timetable.FirstOrDefault(tt => tt.RecordId == r.RecordId) != null);
             var subjects = db.Subjects.Where(s => records.FirstOrDefault(r => r.SubjectId == s.SubjectId) != null);
 
-            TimetableViewModel model = new TimetableViewModel
+            TimeTableViewModel model = new TimeTableViewModel
             {
                 Timetable = timetable,
                 Records = records,

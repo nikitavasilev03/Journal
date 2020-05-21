@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace WebAppMVC.ViewModel
 {
-    public class TimetableViewModel
+    public class TimeTableViewModel
     {
         public IEnumerable<Timetable> Timetable { get; set; }
         public IEnumerable<Record> Records { get; set; }
