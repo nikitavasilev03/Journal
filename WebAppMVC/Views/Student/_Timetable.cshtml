@@ -1,0 +1,38 @@
+﻿@model WebAppMVC.ViewModel.TimetableViewModel
+
+<h2 class="h2-title">@Model.GetWeekDayByNumber()</h2>
+<table class="table-info">
+    <thead>
+        <tr>
+            <td>Номер пары</td>
+            <td>Предмет</td>
+            <td>Перподователь</td>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Timetable
+       .Where(t => t.TtWeekDay == Model.DayOfWeek)
+       .GroupBy(t => t.TtNumLesson)
+       .Select(t => t.First())
+       .OrderBy(t => t.TtNumLesson)
+    )
+        {
+            <tr>
+                <td>@item.TtNumLesson</td>
+                <td>
+                    @Model.GetNameSubjectByID(
+                        Model.Records.FirstOrDefault(r => item.RecordId == r.RecordId).SubjectId
+                    )
+                </td>
+                @{
+                    var teacher = Model.Teachers.FirstOrDefault(t => t.AccountId == item.TeacherAccountId);
+                }
+                @if (teacher != null)
+                {
+                    <td>@teacher.TeacherSname @teacher.TeacherName @teacher.TeacherLname</td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>

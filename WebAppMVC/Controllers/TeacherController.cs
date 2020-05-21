@@ -19,6 +19,7 @@ namespace WebAppMVC.Controllers
         private Teacher currentUser = null;
         private IEnumerable<Timetable> currnetTimetable = null;
         private IEnumerable<Journal> currnetAttendance = null;
+        private IQueryable<Subject> currnetSubjects = null;
 
         public Teacher CurrentUser
         {
@@ -52,6 +53,19 @@ namespace WebAppMVC.Controllers
                 if (currnetAttendance == null)
                     currnetAttendance = db.Journals.Where(a => a.TeacherAccountId == CurrentUser.AccountId);
                 return currnetAttendance;
+            }
+        }
+        //Пердметы которые ведет преподователь
+        public IQueryable<Subject> CurrnetSubjects
+        {
+            get
+            {
+                if (currnetSubjects == null)
+                {
+                    var records = db.Records.Where(r => CurrnetTimetable.FirstOrDefault(t => t.RecordId == r.RecordId) != null);
+                    currnetSubjects = db.Subjects.Where(s => records.FirstOrDefault(t => t.SubjectId == s.SubjectId) != null);
+                }
+                return currnetSubjects;
             }
         }
 
@@ -95,16 +109,16 @@ namespace WebAppMVC.Controllers
         [Route("Journal")]
         public IActionResult Journal()
         {
-            var records = db.Records.Where(r => CurrnetTimetable.FirstOrDefault(t => t.RecordId == r.RecordId) != null);
-            var subjects = db.Subjects.Where(s => records.FirstOrDefault(t => t.SubjectId == s.SubjectId) != null);
+            //var records = db.Records.Where(r => CurrnetTimetable.FirstOrDefault(t => t.RecordId == r.RecordId) != null);
+            //var subjects = db.Subjects.Where(s => records.FirstOrDefault(t => t.SubjectId == s.SubjectId) != null);
 
-            if (subjects.Count() == 0)
+            if (CurrnetSubjects.Count() == 0)
                 return View("Journal", null);
 
             JournalViewModel model = new JournalViewModel
             {
-                Subjects = subjects,
-                CurrentSubjectId = subjects.FirstOrDefault().SubjectId,
+                Subjects = CurrnetSubjects,
+                CurrentSubjectId = CurrnetSubjects.FirstOrDefault().SubjectId,
                 Day = DateTime.Now
             };
 
@@ -124,9 +138,7 @@ namespace WebAppMVC.Controllers
             //Если занятия нет
             if (timetable.Count() == 0)
             {
-                var subjects = db.Subjects.
-                    Where(s => CurrnetAttendance.FirstOrDefault(a => a.SubjectId == s.SubjectId) != null);
-                model.Subjects = subjects;
+                model.Subjects = CurrnetSubjects;
                 ModelState.AddModelError("", "У вас нет занятий в это время");
                 return View("Journal", model);
             }
@@ -134,11 +146,9 @@ namespace WebAppMVC.Controllers
             var records = db.Records.AsEnumerable()
                 .Where(r => timetable.FirstOrDefault(t => t.RecordId == r.RecordId) != null && r.SubjectId == model.CurrentSubjectId);
             //Если никто не записан
-            if (timetable.Count() == 0)
+            if (records.Count() == 0)
             {
-                var subjects = db.Subjects.
-                    Where(s => CurrnetAttendance.FirstOrDefault(a => a.SubjectId == s.SubjectId) != null);
-                model.Subjects = subjects;
+                model.Subjects = CurrnetSubjects;
                 ModelState.AddModelError("", "Нет записей на данное занятие");
                 return View("Journal", model);
             }
@@ -147,8 +157,7 @@ namespace WebAppMVC.Controllers
             model.Students = db.Students.AsEnumerable()
                 .Where(s => records.FirstOrDefault(r => r.StudentAccountId == s.AccountId) != null);
             //Предметы, если потребуется выбрать другой предмет
-            model.Subjects = db.Subjects.AsEnumerable()
-               .Where(s => CurrnetAttendance.FirstOrDefault(a => a.SubjectId == s.SubjectId) != null);
+            model.Subjects = CurrnetSubjects;
 
             model.Journals = db.Journals.AsEnumerable()
                 .Where(j => model.Students.FirstOrDefault(s => s.AccountId == j.StudentAccountId) != null &&
@@ -203,7 +212,7 @@ namespace WebAppMVC.Controllers
             var records = db.Records.Where(r => timetable.FirstOrDefault(t => t.RecordId == r.RecordId) != null);
             var subjects = db.Subjects.Where(s => records.FirstOrDefault(r => r.SubjectId == s.SubjectId) != null);
             var students = db.Students.Where(s => records.FirstOrDefault(r => r.StudentAccountId == s.AccountId) != null);
-            var groups = students    
+            var groups = students
                 .Select(s => s.StudentGroup)
                 .Distinct()
                 .OrderBy(s => s);
@@ -217,7 +226,7 @@ namespace WebAppMVC.Controllers
 
                 CurrentSubject = null
             };
-            
+
             if (gr != null && subj != null)
             {
                 var newRecords = records.Where(r => r.SubjectId == subj && students.FirstOrDefault(s => s.AccountId == r.StudentAccountId).StudentGroup == gr);
@@ -228,7 +237,7 @@ namespace WebAppMVC.Controllers
                 model.Students = newStudents;
                 model.CurrentSubject = subject;
             }
-            
+
             return View("Attendance", model);
         }
         [HttpPost]

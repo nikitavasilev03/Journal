@@ -9,6 +9,7 @@ namespace WebAppMVC.ViewModel
         public IEnumerable<Timetable> Timetable { get; set; }
         public IEnumerable<Record> Records { get; set; }
         public IEnumerable<Subject> Subjects { get; set; }
+        public IEnumerable<Teacher> Teachers { get; set; }
         public int DayOfWeek { get; set; } = 1;
 
         public string GetNameSubjectByID(decimal id)

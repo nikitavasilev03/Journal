@@ -8,10 +8,14 @@
    asp-route-teach="@Model.CurrentTeacher.AccountId"
    asp-route-subj="@Model.CurrentSubject.SubjectId">Назад</a>
 <h1 class="h-title h1-title">Записи на @Model.CurrentSubject.SubjectName</h1>
-<div>
+
+<form asp-action="AddIntoTimeTable" asp-controller="Admin"
+      asp-route-teach="@Model.CurrentTeacher.AccountId"
+      asp-route-subj="@Model.CurrentSubject.SubjectId">
+
     <div class="ca_">
-        <label class="ca_lab">День недели:</label>
-        <select class="ca_input" id="sel-day-of-week">
+        <label class="ca_lab" asp-for="DayOfWeek">День недели:</label>
+        <select class="ca_input" id="sel-day-of-week" asp-for="DayOfWeek">
             <option value="1">Понедельник</option>
             <option value="2">Вторник</option>
             <option value="3">Среда</option>
@@ -22,34 +26,55 @@
         </select>
     </div>
     <div class="ca_">
-        <label class="ca_lab">Номер занятия:</label>
-        <input class="ca_input" id="inp-number-lesson" type="number" value="1" min="1" max="6" />
+        <label class="ca_lab" asp-for="NumberLeson">Номер занятия:</label>
+        <input class="ca_input" id="inp-number-lesson" type="number" asp-for="NumberLeson" min="1" max="6" />
     </div>
-</div>
+    <div class="ca_">
+        <input class="ca_input" type="submit" value="Назначить" />
+    </div>
+</form>
 
-<table class="table-info">
-    <thead>
-        <tr>
-            <td>ФИО студента</td>
-            <td>Дата записи</td>
-            <td>Дата окончания</td>
-            <td>Управление</td>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var record in Model.Records)
-        {
+
+
+@if (Model.Students == null)
+{
+
+}
+else if (Model.Records.Count() == 0)
+{
+    <h2 class="h2-title">Нет данных</h2>
+}
+else
+{
+    <div id="result"></div>
+    <table class="table-info">
+        <thead>
             <tr>
-                @{
-                    var student = Model.Students.FirstOrDefault(s => s.AccountId == record.StudentAccountId);
-                }
-                <td>@student.StudentSname @student.StudentName @student.StudentLname</td>
-                <td>@record.DateStart.ToString("dd:MM:yyyy")</td>
-                <td>@record.DateEnd.ToString("dd:MM:yyyy")</td>
-                <td>
-                    <a class="nav__link" href="#" onclick="addToTimetable(@Model.CurrentTeacher.AccountId, @record.RecordId)">Добавить</a>
-                </td>
+                <td>ФИО студента</td>
+                <td>Группа</td>
+                <td>Дата записи</td>
+                <td>Дата окончания</td>
+                <td>Управление</td>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var record in Model.Records)
+            {
+                <tr id="record-number-@record.RecordId">
+                    @{
+                        var student = Model.Students.FirstOrDefault(s => s.AccountId == record.StudentAccountId);
+                    }
+                    <td>@student.StudentSname @student.StudentName @student.StudentLname</td>
+                    <td>@student.StudentGroup</td>
+                    <td>@record.DateStart.ToString("dd.MM.yyyy")</td>
+                    <td>@record.DateEnd.ToString("dd.MM.yyyy")</td>
+                    <td>
+                        <a class="nav__link" href="#" onclick="addToTimetable(@Model.CurrentTeacher.AccountId, @record.RecordId)">Добавить</a>
+                        @*<a class="nav__link" href="#">Добавить</a>*@
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+

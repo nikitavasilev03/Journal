@@ -1,0 +1,15 @@
+﻿@{
+    Layout = "~/Views/Home/Index.cshtml";
+    ViewData["Title"] = "Home Page";
+}
+@model WebAppMVC.ViewModel.AccountViewModel
+
+<h1 class="h-title h1-title">Вы уверены что хотите удалить аккаунт @Model.Login?</h1>
+<div class="ca_">
+    <a class="nav_link" asp-action="RemoveAccount" asp-controller="Admin" asp-route-id="@Model.Id">Удалить</a>
+    <a class="nav_link" asp-action="Accounts" asp-controller="Admin">Назад</a>
+</div>
+@if (Model.Dependences != null && Model.Dependences.Count != 0)
+{
+    await Html.RenderPartialAsync("/Views/Admin/_Dependences.cshtml", Model.Dependences);
+}

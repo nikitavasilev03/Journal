@@ -16,6 +16,6 @@
     if (Model.Timetable.Where(tt => tt.TtWeekDay == i).Count() > 0)
     {
         Model.DayOfWeek = i;
-        await Html.RenderPartialAsync("/Views/Teacher/_PartTimetable.cshtml", Model);
+        await Html.RenderPartialAsync("/Views/Student/_Timetable.cshtml", Model);
     }
 }

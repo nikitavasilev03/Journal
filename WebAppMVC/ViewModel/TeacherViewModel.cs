@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 
 using DomainCore.Models;
+using System.Collections.Generic;
 
 namespace WebAppMVC.ViewModel
 {
@@ -19,7 +20,7 @@ namespace WebAppMVC.ViewModel
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
-
+        public Dictionary<string, int> Dependences { get; set; } = null;
         public TeacherViewModel()
         {
 

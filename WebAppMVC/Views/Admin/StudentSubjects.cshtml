@@ -36,7 +36,7 @@ else
                     <td>@Model.Subjects.FirstOrDefault(s => s.SubjectId == item.SubjectId)?.NeedVisits</td>
                     <td>
                         <a class="nav__link" asp-controller="Admin" asp-action="EditRecord" asp-route-id="@item.RecordId">Изменить</a>/
-                        <a class="nav__link" asp-controller="Admin" asp-action="RemoveRecord" asp-route-id="@item.RecordId">Удалить</a>
+                        <a class="nav__link" asp-controller="Admin" asp-action="DialogRemoveRecord" asp-route-id="@item.RecordId">Удалить</a>
                     </td>
                 </tr>
             }

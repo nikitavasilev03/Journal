@@ -11,6 +11,11 @@ namespace WebAppMVC.ViewModel
     {
         [Required]
         public decimal CurrentSubjectId { get; set; }
+        [Required]
+        public int NumberLeson { get; set; } = 1;
+        [Required]
+        public int DayOfWeek { get; set; } = 1;
+
 
         public Subject CurrentSubject { get; set; }
         public Teacher CurrentTeacher{ get; set; }

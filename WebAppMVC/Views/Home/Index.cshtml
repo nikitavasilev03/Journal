@@ -8,19 +8,16 @@
         <header>
             <nav class="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3 navbar navbar-light">
                 <div class="container">
-                    <a class="navbar-brand" href="#">СПОРТКОМПЛЕКС ОЛИМП</a>
+                    <a class="navbar-brand" asp-controller="Start" asp-action="Index">СПОРТКОМПЛЕКС ОЛИМП</a>
                     <div class="d-sm-inline-flex flex-sm-row-reverse collapse navbar-collapse">
                         <ul class="navbar-nav flex-grow">
-                            <li class="nav-item"><a class="text-dark nav-link" asp-controller="Start" asp-action="Index">Начальная страница</a></li>
-                            @*<li class="nav-item"><a class="text-dark nav-link" href="#">ВОЙТИ</a></li>*@
+                            @*<li class="nav-item"><a class="text-dark nav-link" asp-controller="Start" asp-action="Index">Начальная страница</a></li>*@
                             <li class="nav-item">
                                 @{
                                     await Html.RenderPartialAsync("/Views/Home/_User.cshtml", User.Identity.Name);
 
                                 }
                             </li>
-                            <!--<div id="myDropdown" class="dropdown-content">
-                            <a href="/Account/Logout">Выйти</a> -->
                         </ul>
                     </div>
                 </div>
