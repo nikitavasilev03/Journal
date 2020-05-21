@@ -865,8 +865,6 @@ namespace WebAppMVC.Controllers
         {
             Teacher teacher = db.Teachers.FirstOrDefault(u => u.AccountId == teach);
             Subject subject = db.Subjects.FirstOrDefault(s => s.SubjectId == subj);
-            //var records = db.Records.Where(r => r.SubjectId == subject.SubjectId);
-            //var students = db.Students.Where(s => records.FirstOrDefault(r => r.StudentAccountId == s.AccountId) != null);
 
             var model = new TeacherSubjectsViewModel
             {
@@ -924,15 +922,16 @@ namespace WebAppMVC.Controllers
                             records.FirstOrDefault(r => r.RecordId == tt.RecordId) != null
                             && tt.TtWeekDay == ttRecord.TtWeekDay
                             && tt.TtNumLesson == ttRecord.TtNumLesson);
+            var countRecordOnDay = db.Timetable.Count(tt =>
+                            tt.RecordId == recordId
+                            && tt.TtWeekDay == ttRecord.TtWeekDay);
 
-            //!!!Сдесь должен быть код который не позволяет записать перподователя на разные предметы в одно время 
+            //!!!Сдесь должен быть код который не позволяет записать перподователя на разные предметы в одно время!!! 
             //Получем любую запись данного преподавателя на текущую пару в этот день
-            //var ttTeacher = await db.Timetable.FirstOrDefaultAsync(tt =>
-            //                tt.TeacherAccountId == ttRecord.TeacherAccountId
-            //                && tt.TtWeekDay == ttRecord.TtWeekDay
-            //                && tt.TtNumLesson == ttRecord.TtNumLesson);
+            //var ttTeacher = 
+            
             Timetable ttTeacher = null;
-            if (ttStudent == null && ttTeacher == null)
+            if (ttStudent == null && ttTeacher == null && countRecordOnDay == 0)
             {
                 ttRecord.TtId = db.NextSequence("SEQ_Timetable");
                 db.Timetable.Add(ttRecord);
@@ -943,6 +942,8 @@ namespace WebAppMVC.Controllers
             }
             else if (ttStudent != null)
                 result.Message = "Текущий студент уже записан в это время на другое занятие";
+            else if (countRecordOnDay != 0)
+                result.Message = "Текущий студент уже записан на это занятие в этот день";
             else if (ttTeacher != null)
                 result.Message = "Текущий преподователь уже записан в это время на другое занятие";
             
